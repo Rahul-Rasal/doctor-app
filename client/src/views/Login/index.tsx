@@ -1,10 +1,54 @@
-import React from "react";
-import { Box } from "@mui/material";
-import { Heading, SubHeading } from "../../components/Heading";
+// React Imports
+import { useState } from "react";
 import { Link } from "react-router-dom";
+// Formik Imports
+import { Form, Formik, FormikProps } from "formik";
+// MUI Imports
+import { Button, Box } from "@mui/material";
+// Custom Imports
+import { Heading, SubHeading } from "../../components/Heading";
+import PrimaryInput from "../../components/PrimaryInput/PrimaryInput";
+import ToastAlert from "../../components/ToastAlert/ToastAlert";
+// React Icons Imports
+import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
+// Validation Schema Imports
+import { loginSchema } from "./components/validationSchema";
+// Utils Imports
+import { onKeyDown } from "../../utils";
+// Images Imports
 import BottomLogo from "../../assets/images/bottomLogo.svg";
 
+interface ISLoginForm {
+  email: string;
+  password: string;
+}
+
 const Login = () => {
+  // states
+  const [showPassword, setShowPassword] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [formValues, setFormValues] = useState<ISLoginForm>({
+    email: "",
+    password: "",
+  });
+  const [toast, setToast] = useState({
+    message: "",
+    appearence: false,
+    type: "",
+  });
+
+  const hideShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleCloseToast = () => {
+    setToast({ ...toast, appearence: false });
+  };
+
+  const LoginHandler = async (data: ISLoginForm) => {
+    console.log("payload", data);
+  };
+
   return (
     <>
       <Box
@@ -83,7 +127,98 @@ const Login = () => {
                 >
                   Login
                 </Heading>
-                formik form
+                <Formik
+                  initialValues={formValues}
+                  onSubmit={(values: ISLoginForm) => {
+                    LoginHandler(values);
+                  }}
+                  validationSchema={loginSchema}
+                >
+                  {(props: FormikProps<ISLoginForm>) => {
+                    const {
+                      values,
+                      touched,
+                      errors,
+                      handleBlur,
+                      handleChange,
+                    } = props;
+
+                    return (
+                      <Form onKeyDown={onKeyDown}>
+                        <Box sx={{ marginBottom: "10px", marginTop: "20px" }}>
+                          <SubHeading sx={{ marginBottom: "5px" }}>
+                            Email
+                          </SubHeading>
+                          <PrimaryInput
+                            type="text"
+                            label=""
+                            name="email"
+                            placeholder="Email"
+                            value={values.email}
+                            helperText={
+                              errors.email && touched.email ? errors.email : ""
+                            }
+                            error={errors.email && touched.email ? true : false}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                          />
+                        </Box>
+                        <Box sx={{ marginBottom: "10px" }}>
+                          <SubHeading sx={{ marginBottom: "5px" }}>
+                            Password
+                          </SubHeading>
+                          <PrimaryInput
+                            type={showPassword ? "text" : "password"}
+                            label=""
+                            name="password"
+                            placeholder="Password"
+                            value={values.password}
+                            helperText={
+                              errors.password && touched.password
+                                ? errors.password
+                                : ""
+                            }
+                            error={
+                              errors.password && touched.password ? true : false
+                            }
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            onClick={hideShowPassword}
+                            endAdornment={
+                              showPassword ? (
+                                <AiOutlineEye color="disabled" />
+                              ) : (
+                                <AiOutlineEyeInvisible color="disabled" />
+                              )
+                            }
+                          />
+                        </Box>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "end",
+                            marginTop: "20px",
+                          }}
+                        >
+                          <Button
+                            type="submit"
+                            variant="contained"
+                            fullWidth
+                            // disabled={loading}
+                            sx={{
+                              padding: "5px 30px",
+                              textTransform: "capitalize",
+                              margin: "20px 0",
+                            }}
+                          >
+                            {/* {loading ? "Login..." : "Login"} */}
+                            Login
+                          </Button>
+                        </Box>
+                      </Form>
+                    );
+                  }}
+                </Formik>
               </Box>
             </Box>
           </Box>
@@ -150,6 +285,12 @@ const Login = () => {
           </Box>
         </Box>
       </Box>
+      <ToastAlert
+        appearence={toast.appearence}
+        type={toast.type}
+        message={toast.message}
+        handleClose={handleCloseToast}
+      />
     </>
   );
 };

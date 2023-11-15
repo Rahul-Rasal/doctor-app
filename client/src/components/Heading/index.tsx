@@ -5,7 +5,7 @@ import { Box } from "@mui/material";
 import { SxProps } from "@mui/system";
 
 const root = {
-  fontSize: "22px",
+  fontSize: "25px",
   fontWeight: "700",
   whiteSpace: "wrap !important",
   color: "#49454F",
