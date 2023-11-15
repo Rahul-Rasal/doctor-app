@@ -6,6 +6,7 @@ require("dotenv").config();
 // Custom Imports
 const AppError = require("./utils/appError");
 const globalErrorHandler = require("./controllers/errorController");
+const userRouter = require("./routes/userRoutes");
 
 const app = express();
 app.use(cors());
@@ -13,7 +14,7 @@ app.use(cors());
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
-app.use(express.json());
+app.use(express.json({ limit: "10kb" }));
 
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
@@ -23,6 +24,9 @@ app.use((req, res, next) => {
 app.get("/", (req, res) => {
   res.send("Doctor Appointment API is running...");
 });
+
+// ROUTES
+app.use("/api/v1/users", userRouter);
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
