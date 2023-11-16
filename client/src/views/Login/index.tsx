@@ -21,6 +21,8 @@ import BottomLogo from "../../assets/images/bottomLogo.svg";
 // Redux API
 import { useLoginMutation } from "../../redux/api/authApiSlice";
 import { setUser } from "../../redux/auth/authSlice";
+import useTypedSelector from "../../hooks/useTypedSelector";
+import { alertsLoader, hideLoading, showLoading } from "../../redux/alertSlice";
 
 interface ISLoginForm {
   email: string;
@@ -30,7 +32,7 @@ interface ISLoginForm {
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const loader = useTypedSelector(alertsLoader);
   // states
   const [showPassword, setShowPassword] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -53,10 +55,11 @@ const Login = () => {
   };
 
   // Login Api Bind
-  const [loginUser, { isLoading }] = useLoginMutation();
+  const [loginUser] = useLoginMutation();
 
   const LoginHandler = async (data: ISLoginForm) => {
     try {
+      dispatch(showLoading());
       const payload = {
         email: data.email,
         password: data.password,
@@ -64,11 +67,13 @@ const Login = () => {
 
       const user: any = await loginUser(payload);
       if (user?.data?.status) {
+        dispatch(hideLoading());
         dispatch(setUser(user?.data));
         localStorage.setItem("user", JSON.stringify(user?.data));
         navigate("/");
       }
       if (user?.error) {
+        dispatch(hideLoading());
         setToast({
           ...toast,
           message: user?.error?.data?.message,
@@ -77,6 +82,7 @@ const Login = () => {
         });
       }
     } catch (error) {
+      dispatch(hideLoading());
       setToast({
         ...toast,
         message: "Something went wrong",
@@ -241,14 +247,14 @@ const Login = () => {
                             type="submit"
                             variant="contained"
                             fullWidth
-                            disabled={isLoading}
+                            disabled={loader}
                             sx={{
                               padding: "5px 30px",
                               textTransform: "capitalize",
                               margin: "20px 0",
                             }}
                           >
-                            {isLoading ? "Login..." : "Login"}
+                            {loader ? "Login..." : "Login"}
                           </Button>
                         </Box>
                       </Form>
