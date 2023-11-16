@@ -1,6 +1,6 @@
 // React Imports
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 // React Icons
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 // Formik Imports
@@ -17,6 +17,8 @@ import ToastAlert from "../../components/ToastAlert/ToastAlert";
 import PrimaryInput from "../../components/PrimaryInput/PrimaryInput";
 // Images Imports
 import NextWhiteLogo from "../../assets/images/nexCenterLogo.svg";
+// Redux API
+import { useSignupMutation } from "../../redux/api/authApiSlice";
 
 interface ISSignupForm {
   name: string;
@@ -25,6 +27,7 @@ interface ISSignupForm {
 }
 
 const Signup = () => {
+  const navigate = useNavigate();
   // states
   const [showPassword, setShowPassword] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -47,8 +50,51 @@ const Signup = () => {
     setToast({ ...toast, appearence: false });
   };
 
+  // Sign Up Api Bind
+  const [signupUser, { isLoading: signnUpLoading }] = useSignupMutation();
+
   const signupHandler = async (data: ISSignupForm) => {
-    console.log("payload", data);
+    const payload = {
+      name: data.name,
+      email: data.email,
+      password: data.password,
+    };
+    try {
+      const user: any = await signupUser({
+        body: payload,
+      });
+
+      console.log("user", user);
+
+      return;
+      if (user?.data?.status) {
+        setToast({
+          ...toast,
+          message: "User Created Successfully",
+          appearence: true,
+          type: "success",
+        });
+        setTimeout(() => {
+          navigate("/login");
+        }, 1000);
+      }
+
+      if (user?.error) {
+        setToast({
+          ...toast,
+          message: user?.error?.data?.message,
+          appearence: true,
+          type: "error",
+        });
+      }
+    } catch (error) {
+      setToast({
+        ...toast,
+        message: "Something went wrong",
+        appearence: true,
+        type: "error",
+      });
+    }
   };
 
   return (
@@ -277,6 +323,7 @@ const Signup = () => {
                               }
                             />
                           </Box>
+
                           <Box
                             sx={{
                               display: "flex",

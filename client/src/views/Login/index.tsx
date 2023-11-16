@@ -1,6 +1,7 @@
 // React Imports
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 // Formik Imports
 import { Form, Formik, FormikProps } from "formik";
 // MUI Imports
@@ -17,6 +18,9 @@ import { loginSchema } from "./components/validationSchema";
 import { onKeyDown } from "../../utils";
 // Images Imports
 import BottomLogo from "../../assets/images/bottomLogo.svg";
+// Redux API
+import { useLoginMutation } from "../../redux/api/authApiSlice";
+import { setUser } from "../../redux/auth/authSlice";
 
 interface ISLoginForm {
   email: string;
@@ -24,6 +28,7 @@ interface ISLoginForm {
 }
 
 const Login = () => {
+  const dispatch = useDispatch();
   // states
   const [showPassword, setShowPassword] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -45,8 +50,32 @@ const Login = () => {
     setToast({ ...toast, appearence: false });
   };
 
+  // Login Api Bind
+  const [loginUser, { isLoading: loginLoading }] = useLoginMutation();
+
   const LoginHandler = async (data: ISLoginForm) => {
-    console.log("payload", data);
+    const payload = {
+      email: data.email,
+      password: data.password,
+    };
+
+    try {
+      const user: any = await loginUser({
+        body: payload,
+      });
+      console.log("api response", user);
+      if (user?.data?.status) {
+        dispatch(setUser(user?.data));
+        localStorage.setItem("user", JSON.stringify(user?.data));
+      }
+    } catch (error) {
+      setToast({
+        ...toast,
+        message: "Something went wrong",
+        appearence: true,
+        type: "error",
+      });
+    }
   };
 
   return (
