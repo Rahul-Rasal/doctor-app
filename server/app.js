@@ -9,10 +9,8 @@ const globalErrorHandler = require("./controllers/errorController");
 const userRouter = require("./routes/userRoutes");
 
 const corsOptions = {
-  origin: "http://localhost:3000/",
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  credentials: true,
-  optionsSuccessStatus: 204,
+  origin: "http://localhost:3000",
+  methods: ["GET", "POST", "PUT", "DELETE"],
 };
 
 const app = express();
