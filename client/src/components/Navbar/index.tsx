@@ -1,6 +1,6 @@
 // React Imports
 import React, { ReactNode } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 // MUI Imports
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -82,6 +82,7 @@ interface DashboardProps {
 }
 
 export default function Navbar({ children }: DashboardProps) {
+  const navigate = useNavigate();
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
 
@@ -134,7 +135,13 @@ export default function Navbar({ children }: DashboardProps) {
                 </div>
               </Tooltip>
             </Box>
-            <Box sx={{ cursor: "pointer" }}>
+            <Box
+              sx={{ cursor: "pointer" }}
+              onClick={() => {
+                localStorage.removeItem("user");
+                navigate("/login");
+              }}
+            >
               <Tooltip title="Logout" placement="top">
                 <div>
                   <RiLogoutCircleLine style={{ fontSize: "23px" }} />
