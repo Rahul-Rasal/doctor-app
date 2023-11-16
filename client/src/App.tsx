@@ -3,15 +3,38 @@ import Dashboard from "./views/Dashboard";
 import Login from "./views/Login";
 import Signup from "./views/Signup";
 import NotFound from "./views/NotFound";
+import ProtectedRoutes from "./routes/ProtectedRoutes";
+import PublicRoutes from "./routes/PublicRoutes";
 
 function App() {
   return (
     <>
       <Router>
         <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
+          <Route
+            path="/login"
+            element={
+              <PublicRoutes>
+                <Login />
+              </PublicRoutes>
+            }
+          />
+          <Route
+            path="/signup"
+            element={
+              <PublicRoutes>
+                <Signup />
+              </PublicRoutes>
+            }
+          />
+          <Route
+            path="/"
+            element={
+              <ProtectedRoutes>
+                <Dashboard />
+              </ProtectedRoutes>
+            }
+          />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
