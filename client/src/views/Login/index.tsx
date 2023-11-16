@@ -56,12 +56,12 @@ const Login = () => {
   const [loginUser, { isLoading }] = useLoginMutation();
 
   const LoginHandler = async (data: ISLoginForm) => {
-    const payload = {
-      email: data.email,
-      password: data.password,
-    };
-
     try {
+      const payload = {
+        email: data.email,
+        password: data.password,
+      };
+
       const user: any = await loginUser(payload);
       if (user?.data?.status) {
         dispatch(setUser(user?.data));
