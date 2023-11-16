@@ -27,10 +27,19 @@ const userSchema = new mongoose.Schema(
   }
 );
 
+// Password Hashing
 userSchema.pre("save", async function (next) {
   // Hash the password with cost of 12
   this.password = await bcrypt.hash(this.password, 12);
 });
+
+// instance method
+userSchema.methods.correctPassword = async function (
+  candidatePassword,
+  userPassword
+) {
+  return await bcrypt.compare(candidatePassword, userPassword);
+};
 
 const User = new mongoose.model("User", userSchema);
 

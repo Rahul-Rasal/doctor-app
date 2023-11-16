@@ -1,6 +1,6 @@
 // React Imports
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 // Formik Imports
 import { Form, Formik, FormikProps } from "formik";
@@ -29,6 +29,8 @@ interface ISLoginForm {
 
 const Login = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   // states
   const [showPassword, setShowPassword] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -51,7 +53,7 @@ const Login = () => {
   };
 
   // Login Api Bind
-  const [loginUser, { isLoading: loginLoading }] = useLoginMutation();
+  const [loginUser, { isLoading }] = useLoginMutation();
 
   const LoginHandler = async (data: ISLoginForm) => {
     const payload = {
@@ -60,13 +62,19 @@ const Login = () => {
     };
 
     try {
-      const user: any = await loginUser({
-        body: payload,
-      });
-      console.log("api response", user);
+      const user: any = await loginUser(payload);
       if (user?.data?.status) {
         dispatch(setUser(user?.data));
         localStorage.setItem("user", JSON.stringify(user?.data));
+        navigate("/");
+      }
+      if (user?.error) {
+        setToast({
+          ...toast,
+          message: user?.error?.data?.message,
+          appearence: true,
+          type: "error",
+        });
       }
     } catch (error) {
       setToast({
@@ -233,15 +241,14 @@ const Login = () => {
                             type="submit"
                             variant="contained"
                             fullWidth
-                            // disabled={loading}
+                            disabled={isLoading}
                             sx={{
                               padding: "5px 30px",
                               textTransform: "capitalize",
                               margin: "20px 0",
                             }}
                           >
-                            {/* {loading ? "Login..." : "Login"} */}
-                            Login
+                            {isLoading ? "Login..." : "Login"}
                           </Button>
                         </Box>
                       </Form>
