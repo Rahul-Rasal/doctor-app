@@ -5,6 +5,8 @@ import Signup from "./views/Signup";
 import NotFound from "./views/NotFound";
 import ProtectedRoutes from "./routes/ProtectedRoutes";
 import PublicRoutes from "./routes/PublicRoutes";
+import Appointments from "./views/Appointments";
+import ApplyDoctor from "./views/ApplyDoctor";
 
 function App() {
   return (
@@ -27,11 +29,28 @@ function App() {
               </PublicRoutes>
             }
           />
+          {/* Protected Routes */}
           <Route
             path="/"
             element={
               <ProtectedRoutes>
                 <Dashboard />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/appointments"
+            element={
+              <ProtectedRoutes>
+                <Appointments />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/apply-doctor"
+            element={
+              <ProtectedRoutes>
+                <ApplyDoctor />
               </ProtectedRoutes>
             }
           />
