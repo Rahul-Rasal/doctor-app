@@ -82,6 +82,7 @@ const Login = () => {
         });
       }
     } catch (error) {
+      console.error("Login Error:", error);
       dispatch(hideLoading());
       setToast({
         ...toast,

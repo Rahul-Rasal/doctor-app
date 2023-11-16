@@ -90,6 +90,7 @@ const Signup = () => {
         });
       }
     } catch (error) {
+      console.error("SignUp Error:", error);
       dispatch(hideLoading());
       setToast({
         ...toast,
