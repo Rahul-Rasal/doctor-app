@@ -56,7 +56,7 @@ const Signup = () => {
   };
 
   // Sign Up Api Bind
-  const [signupUser] = useSignupMutation();
+  const [signupUser, { isLoading }] = useSignupMutation();
 
   const signupHandler = async (data: ISSignupForm) => {
     const payload = {
@@ -65,11 +65,11 @@ const Signup = () => {
       password: data.password,
     };
     try {
-      dispatch(showLoading());
+      // dispatch(showLoading());
       const user: any = await signupUser(payload);
 
       if (user?.data?.status) {
-        dispatch(hideLoading());
+        // dispatch(hideLoading());
         setToast({
           ...toast,
           message: "User Successfully Created",
@@ -81,7 +81,7 @@ const Signup = () => {
         }, 1500);
       }
       if (user?.error) {
-        dispatch(hideLoading());
+        // dispatch(hideLoading());
         setToast({
           ...toast,
           message: user?.error?.data?.message,
@@ -339,14 +339,14 @@ const Signup = () => {
                               type="submit"
                               variant="contained"
                               fullWidth
-                              disabled={loader}
+                              disabled={isLoading}
                               sx={{
                                 padding: "5px 30px",
                                 textTransform: "capitalize",
                                 margin: "20px 0",
                               }}
                             >
-                              {loader ? "Sign Up..." : "Sign Up"}
+                              {isLoading ? "Sign Up..." : "Sign Up"}
                             </Button>
                           </Box>
                         </Form>

@@ -64,11 +64,11 @@ const ApplyDoctor = () => {
     setToast({ ...toast, appearence: false });
   };
 
-  const [applyDoctor] = useDoctorSignupMutation();
+  const [applyDoctor, { isLoading }] = useDoctorSignupMutation();
 
   const applyDoctorHandler = async (data: applyDoctorForm) => {
     try {
-      dispatch(showLoading());
+      // dispatch(showLoading());
       const payload = {
         userId,
         firstName: data.firstName,
@@ -87,7 +87,7 @@ const ApplyDoctor = () => {
       const user: any = await applyDoctor(payload);
 
       if (user?.data?.status) {
-        dispatch(hideLoading());
+        // dispatch(hideLoading());
         setToast({
           ...toast,
           message: "Doctor Account Applied Successfully",
@@ -99,7 +99,7 @@ const ApplyDoctor = () => {
         }, 1500);
       }
       if (user?.error) {
-        dispatch(hideLoading());
+        // dispatch(hideLoading());
         setToast({
           ...toast,
           message: user?.error?.data?.message,
@@ -109,7 +109,7 @@ const ApplyDoctor = () => {
       }
     } catch (error) {
       console.error("Doctor Sign Up Error:", error);
-      dispatch(hideLoading());
+      // dispatch(hideLoading());
       setToast({
         ...toast,
         message: "Something went wrong",
@@ -428,14 +428,14 @@ const ApplyDoctor = () => {
                         <Button
                           type="submit"
                           variant="contained"
-                          disabled={loader}
+                          disabled={isLoading}
                           sx={{
                             padding: "5px 30px",
                             textTransform: "capitalize",
                             margin: "20px 0",
                           }}
                         >
-                          {loader ? "Apply..." : "Apply"}
+                          {isLoading ? "Apply..." : "Apply"}
                         </Button>
                       </Box>
                     </Form>

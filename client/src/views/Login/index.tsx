@@ -55,11 +55,11 @@ const Login = () => {
   };
 
   // Login Api Bind
-  const [loginUser] = useLoginMutation();
+  const [loginUser, { isLoading }] = useLoginMutation();
 
   const LoginHandler = async (data: ISLoginForm) => {
     try {
-      dispatch(showLoading());
+      // dispatch(showLoading());
       const payload = {
         email: data.email,
         password: data.password,
@@ -67,13 +67,13 @@ const Login = () => {
 
       const user: any = await loginUser(payload);
       if (user?.data?.status) {
-        dispatch(hideLoading());
+        // dispatch(hideLoading());
         dispatch(setUser(user?.data));
         localStorage.setItem("user", JSON.stringify(user?.data));
         navigate("/");
       }
       if (user?.error) {
-        dispatch(hideLoading());
+        // dispatch(hideLoading());
         setToast({
           ...toast,
           message: user?.error?.data?.message,
@@ -83,7 +83,7 @@ const Login = () => {
       }
     } catch (error) {
       console.error("Login Error:", error);
-      dispatch(hideLoading());
+      // dispatch(hideLoading());
       setToast({
         ...toast,
         message: "Something went wrong",
@@ -248,14 +248,14 @@ const Login = () => {
                             type="submit"
                             variant="contained"
                             fullWidth
-                            disabled={loader}
+                            disabled={isLoading}
                             sx={{
                               padding: "5px 30px",
                               textTransform: "capitalize",
                               margin: "20px 0",
                             }}
                           >
-                            {loader ? "Login..." : "Login"}
+                            {isLoading ? "Login..." : "Login"}
                           </Button>
                         </Box>
                       </Form>
@@ -292,7 +292,7 @@ const Login = () => {
                 }}
               >
                 <Heading sx={{ fontSize: "45px", color: "#fff" }}>
-                  Welcome Back
+                  Welcome to MD Clinic
                 </Heading>
                 <SubHeading
                   sx={{
