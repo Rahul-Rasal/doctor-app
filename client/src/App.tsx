@@ -8,6 +8,8 @@ import PublicRoutes from "./routes/PublicRoutes";
 import Appointments from "./views/Appointments";
 import ApplyDoctor from "./views/ApplyDoctor";
 import Profile from "./views/Profile";
+import Doctors from "./views/Doctors";
+import Users from "./views/Users";
 
 function App() {
   return (
@@ -52,6 +54,22 @@ function App() {
             element={
               <ProtectedRoutes>
                 <ApplyDoctor />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/doctors"
+            element={
+              <ProtectedRoutes>
+                <Doctors />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/users"
+            element={
+              <ProtectedRoutes>
+                <Users />
               </ProtectedRoutes>
             }
           />

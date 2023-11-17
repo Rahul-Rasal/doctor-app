@@ -26,6 +26,13 @@ import { RiLogoutCircleLine } from "react-icons/ri";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { RiMenu3Fill } from "react-icons/ri";
 import { RiMenu2Fill } from "react-icons/ri";
+import { FaUsers } from "react-icons/fa";
+// Hooks
+import useTypedSelector from "../../hooks/useTypedSelector";
+// Auth
+import { selectedUserName, userIsAdmin } from "../../redux/auth/authSlice";
+// Custom
+import CustomChip from "../CustomChip";
 
 const drawerWidth = 240;
 
@@ -105,6 +112,8 @@ interface DashboardProps {
 export default function Navbar({ children }: DashboardProps) {
   const navigate = useNavigate();
   const location = useLocation();
+  const userName = useTypedSelector(selectedUserName);
+  const isAdmin = useTypedSelector(userIsAdmin);
 
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
@@ -117,7 +126,7 @@ export default function Navbar({ children }: DashboardProps) {
     setOpen(false);
   };
 
-  const routes = [
+  const userRoutes = [
     { text: "Home", icon: IoHomeOutline, path: "/" },
     {
       text: "Appointments",
@@ -127,6 +136,20 @@ export default function Navbar({ children }: DashboardProps) {
     { text: "Apply Doctor", icon: FaUserDoctor, path: "/apply-doctor" },
     { text: "Profile", icon: FaRegCircleUser, path: "/profile" },
   ];
+
+  const adminRoutes = [
+    { text: "Home", icon: IoHomeOutline, path: "/" },
+    {
+      text: "Users",
+      icon: FaUsers,
+      path: "/users",
+    },
+    { text: "Doctors", icon: FaUserDoctor, path: "/doctors" },
+    { text: "Profile", icon: FaRegCircleUser, path: "/profile" },
+  ];
+
+  const routes = isAdmin ? adminRoutes : userRoutes;
+  const chipLabel = isAdmin ? "Admin" : "Users";
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -147,9 +170,10 @@ export default function Navbar({ children }: DashboardProps) {
             <RiMenu3Fill />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Salman Muazam
+            {userName}
           </Typography>
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+            <CustomChip label={chipLabel} />
             <Box sx={{ cursor: "pointer" }}>
               <Tooltip title="Notifications" placement="top">
                 <div>
