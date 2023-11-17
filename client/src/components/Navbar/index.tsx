@@ -23,8 +23,9 @@ import { IoHomeOutline } from "react-icons/io5";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import { FaUserDoctor } from "react-icons/fa6";
 import { RiLogoutCircleLine } from "react-icons/ri";
-import { FaAnglesLeft } from "react-icons/fa6";
-import { FaAnglesRight } from "react-icons/fa6";
+import { FaRegCircleUser } from "react-icons/fa6";
+import { RiMenu3Fill } from "react-icons/ri";
+import { RiMenu2Fill } from "react-icons/ri";
 
 const drawerWidth = 240;
 
@@ -124,6 +125,7 @@ export default function Navbar({ children }: DashboardProps) {
       path: "/appointments",
     },
     { text: "Apply Doctor", icon: FaUserDoctor, path: "/apply-doctor" },
+    { text: "Profile", icon: FaRegCircleUser, path: "/profile" },
   ];
 
   return (
@@ -142,7 +144,7 @@ export default function Navbar({ children }: DashboardProps) {
             edge="start"
             sx={{ mr: 2, ...(open && { display: "none" }) }}
           >
-            <FaAnglesRight />
+            <RiMenu3Fill />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
             Salman Muazam
@@ -177,7 +179,7 @@ export default function Navbar({ children }: DashboardProps) {
             MD Clinic
           </Box>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "ltr" ? <FaAnglesLeft /> : <FaAnglesRight />}
+            {theme.direction === "ltr" ? <RiMenu2Fill /> : <RiMenu3Fill />}
           </IconButton>
         </DrawerHeader>
         <Divider />
