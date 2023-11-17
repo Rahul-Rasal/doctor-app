@@ -2,13 +2,13 @@
 import React, { ReactNode } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 // MUI Imports
-import { styled, useTheme } from "@mui/material/styles";
+import { styled, useTheme, Theme, CSSObject } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import Drawer from "@mui/material/Drawer";
-import CssBaseline from "@mui/material/CssBaseline";
+import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
+import CssBaseline from "@mui/material/CssBaseline";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
@@ -28,23 +28,34 @@ import { FaAnglesRight } from "react-icons/fa6";
 
 const drawerWidth = 240;
 
-const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
-  open?: boolean;
-}>(({ theme, open }) => ({
-  flexGrow: 1,
-  padding: theme.spacing(3),
-  transition: theme.transitions.create("margin", {
+const openedMixin = (theme: Theme): CSSObject => ({
+  width: drawerWidth,
+  transition: theme.transitions.create("width", {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.enteringScreen,
+  }),
+  overflowX: "hidden",
+});
+
+const closedMixin = (theme: Theme): CSSObject => ({
+  transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
-  marginLeft: `-${drawerWidth}px`,
-  ...(open && {
-    transition: theme.transitions.create("margin", {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    marginLeft: 0,
-  }),
+  overflowX: "hidden",
+  width: `calc(${theme.spacing(7)} + 1px)`,
+  [theme.breakpoints.up("sm")]: {
+    width: `calc(${theme.spacing(8)} + 1px)`,
+  },
+});
+
+const DrawerHeader = styled("div")(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "flex-end",
+  padding: theme.spacing(0, 1),
+  // necessary for content to be below app bar
+  ...theme.mixins.toolbar,
 }));
 
 interface AppBarProps extends MuiAppBarProps {
@@ -54,27 +65,36 @@ interface AppBarProps extends MuiAppBarProps {
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })<AppBarProps>(({ theme, open }) => ({
-  transition: theme.transitions.create(["margin", "width"], {
+  zIndex: theme.zIndex.drawer + 1,
+  transition: theme.transitions.create(["width", "margin"], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
   ...(open && {
+    marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: `${drawerWidth}px`,
-    transition: theme.transitions.create(["margin", "width"], {
-      easing: theme.transitions.easing.easeOut,
+    transition: theme.transitions.create(["width", "margin"], {
+      easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
   }),
 }));
 
-const DrawerHeader = styled("div")(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
-  justifyContent: "flex-end",
+const Drawer = styled(MuiDrawer, {
+  shouldForwardProp: (prop) => prop !== "open",
+})(({ theme, open }) => ({
+  width: drawerWidth,
+  flexShrink: 0,
+  whiteSpace: "nowrap",
+  boxSizing: "border-box",
+  ...(open && {
+    ...openedMixin(theme),
+    "& .MuiDrawer-paper": openedMixin(theme),
+  }),
+  ...(!open && {
+    ...closedMixin(theme),
+    "& .MuiDrawer-paper": closedMixin(theme),
+  }),
 }));
 
 interface DashboardProps {
@@ -83,6 +103,8 @@ interface DashboardProps {
 
 export default function Navbar({ children }: DashboardProps) {
   const navigate = useNavigate();
+  const location = useLocation();
+
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
 
@@ -93,8 +115,6 @@ export default function Navbar({ children }: DashboardProps) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
-  const location = useLocation();
 
   const routes = [
     { text: "Home", icon: IoHomeOutline, path: "/" },
@@ -151,19 +171,7 @@ export default function Navbar({ children }: DashboardProps) {
           </Box>
         </Toolbar>
       </AppBar>
-      <Drawer
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          "& .MuiDrawer-paper": {
-            width: drawerWidth,
-            boxSizing: "border-box",
-          },
-        }}
-        variant="persistent"
-        anchor="left"
-        open={open}
-      >
+      <Drawer variant="permanent" open={open}>
         <DrawerHeader sx={{ display: "flex", justifyContent: "space-between" }}>
           <Box sx={{ marginLeft: "20px", fontWeight: "600", fontSize: "20px" }}>
             MD Clinic
@@ -173,29 +181,54 @@ export default function Navbar({ children }: DashboardProps) {
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <List sx={{ margin: "0 18px" }}>
+        <List sx={{ margin: open ? "0 18px" : "0 9px" }}>
           {routes.map((route, index) => (
             <ListItem
               key={route.text}
               disablePadding
               sx={{
+                display: "block",
                 backgroundColor:
                   location.pathname === route.path ? "#eff1f7" : "inherit",
                 borderRadius: "10px",
               }}
             >
-              <ListItemButton component={Link} to={route.path}>
-                <ListItemIcon>{React.createElement(route.icon)}</ListItemIcon>
-                <ListItemText primary={route.text} />
+              <ListItemButton
+                component={Link}
+                to={route.path}
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? "initial" : "center",
+                  px: 2.5,
+                }}
+              >
+                <ListItemIcon
+                  sx={{
+                    // minWidth: 0,
+                    // mr: open ? 3 : "auto",
+                    justifyContent: "center",
+                    "& .MuiListItemIcon-root": {
+                      minWidth: open ? "56px" : "0px",
+                    },
+                  }}
+                >
+                  <ListItemIcon sx={{ fontSize: "20px" }}>
+                    {React.createElement(route.icon)}
+                  </ListItemIcon>
+                </ListItemIcon>
+                <ListItemText
+                  primary={route.text}
+                  sx={{ opacity: open ? 1 : 0 }}
+                />
               </ListItemButton>
             </ListItem>
           ))}
         </List>
       </Drawer>
-      <Main open={open}>
+      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
         {children}
-      </Main>
+      </Box>
     </Box>
   );
 }
