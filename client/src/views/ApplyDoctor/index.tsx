@@ -1,9 +1,371 @@
+// React Imports
+import { useState } from "react";
+import { Heading, SubHeading } from "../../components/Heading";
 import Navbar from "../../components/Navbar";
+import { Box, Button, Grid, Stack } from "@mui/material";
+import PrimaryInput from "../../components/PrimaryInput/PrimaryInput";
+import { onKeyDown } from "../../utils";
+// Formik Imports
+import { Form, Formik, FormikProps } from "formik";
+import { applyDoctorSchema } from "./components/validationSchema";
+import PrimaryPhoneInput from "../../components/PhoneInput";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { TimePicker } from "@mui/x-date-pickers/TimePicker";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { Dayjs } from "dayjs";
+
+interface applyDoctorForm {
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  website: string;
+  address: string;
+  specialization: string;
+  experience: string;
+  feePerConsultation: string;
+  fromTime: string | null;
+}
 
 const ApplyDoctor = () => {
+  const [startTime, setStartTime] = useState<Dayjs | null | any>(null);
+  const [endTime, setEndTime] = useState<Dayjs | null | any>(null);
+
+  const handleStartTime = (newValue: Dayjs | null) => {
+    setStartTime(newValue);
+  };
+
+  const handleEndTime = (newValue: Dayjs | null) => {
+    setEndTime(newValue);
+  };
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [formValues, setFormValues] = useState<applyDoctorForm>({
+    firstName: "",
+    lastName: "",
+    phoneNumber: "",
+    website: "",
+    address: "",
+    specialization: "",
+    experience: "",
+    feePerConsultation: "",
+    fromTime: null,
+  });
+  const applyDoctorHandler = async (data: applyDoctorForm) => {};
   return (
     <div>
-      <Navbar>Apply Doctor</Navbar>
+      <Navbar>
+        <Box sx={{ margin: "" }}>
+          <Heading>Apply For Doctor</Heading>
+          <Box
+            sx={{
+              margin: "20px 0",
+              background: "#fff",
+              borderRadius: "6px",
+              padding: "20px",
+              boxShadow: "rgba(0, 0, 0, 0.16) 3px 16px 87px 0px",
+            }}
+          >
+            <SubHeading sx={{ marginBottom: "20px", fontSize: "17px" }}>
+              Basic Information
+            </SubHeading>
+            <Box>
+              <Formik
+                initialValues={formValues}
+                onSubmit={(values: applyDoctorForm) => {
+                  applyDoctorHandler(values);
+                }}
+                validationSchema={applyDoctorSchema}
+              >
+                {(props: FormikProps<applyDoctorForm>) => {
+                  const {
+                    values,
+                    touched,
+                    errors,
+                    handleBlur,
+                    handleChange,
+                    setFieldValue,
+                  } = props;
+
+                  return (
+                    <Form onKeyDown={onKeyDown}>
+                      <Grid container rowSpacing={2} columnSpacing={4}>
+                        <Grid item xs={4}>
+                          <Box sx={{ marginBottom: "10px" }}>
+                            <SubHeading sx={{ marginBottom: "5px" }}>
+                              First Name
+                            </SubHeading>
+                            <PrimaryInput
+                              type="text"
+                              label=""
+                              name="firstName"
+                              placeholder="First Name"
+                              value={values.firstName}
+                              helperText={
+                                errors.firstName && touched.firstName
+                                  ? errors.firstName
+                                  : ""
+                              }
+                              error={
+                                errors.firstName && touched.firstName
+                                  ? true
+                                  : false
+                              }
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                            />
+                          </Box>
+                        </Grid>
+                        <Grid item xs={4}>
+                          <Box sx={{ marginBottom: "10px" }}>
+                            <SubHeading sx={{ marginBottom: "5px" }}>
+                              Last Name
+                            </SubHeading>
+                            <PrimaryInput
+                              type="text"
+                              label=""
+                              name="lastName"
+                              placeholder="Last Name"
+                              value={values.lastName}
+                              helperText={
+                                errors.lastName && touched.lastName
+                                  ? errors.lastName
+                                  : ""
+                              }
+                              error={
+                                errors.lastName && touched.lastName
+                                  ? true
+                                  : false
+                              }
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                            />
+                          </Box>
+                        </Grid>
+                        <Grid item xs={4}>
+                          <Box sx={{ marginBottom: "10px" }}>
+                            <SubHeading sx={{ marginBottom: "5px" }}>
+                              Mobile Number
+                            </SubHeading>
+                            <PrimaryPhoneInput
+                              value={values.phoneNumber}
+                              name="phoneNumber"
+                              formik={props}
+                              variant="outlined"
+                              label=""
+                            />
+                          </Box>
+                        </Grid>
+                        <Grid item xs={4}>
+                          <Box sx={{ marginBottom: "10px" }}>
+                            <SubHeading sx={{ marginBottom: "5px" }}>
+                              Website
+                            </SubHeading>
+                            <PrimaryInput
+                              type="text"
+                              label=""
+                              name="website"
+                              placeholder="Website"
+                              value={values.website}
+                              helperText={
+                                errors.website && touched.website
+                                  ? errors.website
+                                  : ""
+                              }
+                              error={
+                                errors.website && touched.website ? true : false
+                              }
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                            />
+                          </Box>
+                        </Grid>
+                        <Grid item xs={4}>
+                          <Box sx={{ marginBottom: "10px" }}>
+                            <SubHeading sx={{ marginBottom: "5px" }}>
+                              Address
+                            </SubHeading>
+                            <PrimaryInput
+                              type="text"
+                              label=""
+                              name="address"
+                              placeholder="Address"
+                              value={values.address}
+                              helperText={
+                                errors.address && touched.address
+                                  ? errors.address
+                                  : ""
+                              }
+                              error={
+                                errors.address && touched.address ? true : false
+                              }
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                            />
+                          </Box>
+                        </Grid>
+                      </Grid>
+                      <SubHeading sx={{ margin: "20px 0", fontSize: "17px" }}>
+                        Professional Information
+                      </SubHeading>
+
+                      <Grid container rowSpacing={2} columnSpacing={4}>
+                        <Grid item xs={4}>
+                          <Box sx={{ marginBottom: "10px" }}>
+                            <SubHeading sx={{ marginBottom: "5px" }}>
+                              Specialization
+                            </SubHeading>
+                            <PrimaryInput
+                              type="text"
+                              label=""
+                              name="specialization"
+                              placeholder="Specialization"
+                              value={values.specialization}
+                              helperText={
+                                errors.specialization && touched.specialization
+                                  ? errors.specialization
+                                  : ""
+                              }
+                              error={
+                                errors.specialization && touched.specialization
+                                  ? true
+                                  : false
+                              }
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                            />
+                          </Box>
+                        </Grid>
+                        <Grid item xs={4}>
+                          <Box sx={{ marginBottom: "10px" }}>
+                            <SubHeading sx={{ marginBottom: "5px" }}>
+                              Experience
+                            </SubHeading>
+                            <PrimaryInput
+                              type="text"
+                              label=""
+                              name="experience"
+                              placeholder="Experience"
+                              value={values.experience}
+                              helperText={
+                                errors.experience && touched.experience
+                                  ? errors.experience
+                                  : ""
+                              }
+                              error={
+                                errors.experience && touched.experience
+                                  ? true
+                                  : false
+                              }
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                            />
+                          </Box>
+                        </Grid>
+
+                        <Grid item xs={4}>
+                          <Box sx={{ marginBottom: "10px" }}>
+                            <SubHeading sx={{ marginBottom: "5px" }}>
+                              Fee Per Consultation
+                            </SubHeading>
+                            <PrimaryInput
+                              type="text"
+                              label=""
+                              name="feePerConsultation"
+                              placeholder="Fee Per Consultation"
+                              value={values.feePerConsultation}
+                              helperText={
+                                errors.feePerConsultation &&
+                                touched.feePerConsultation
+                                  ? errors.feePerConsultation
+                                  : ""
+                              }
+                              error={
+                                errors.feePerConsultation &&
+                                touched.feePerConsultation
+                                  ? true
+                                  : false
+                              }
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                            />
+                          </Box>
+                        </Grid>
+                        <Grid item xs={4}>
+                          <Box sx={{ marginBottom: "10px" }}>
+                            <SubHeading sx={{ marginBottom: "5px" }}>
+                              Start Time
+                            </SubHeading>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                              <Stack spacing={3}>
+                                <TimePicker
+                                  label=""
+                                  value={values.fromTime}
+                                  onChange={(value) => {
+                                    setFieldValue("fromTime", value);
+                                  }}
+                                  // error={
+                                  //   errors.fromTime && touched.fromTime
+                                  //     ? true
+                                  //     : false
+                                  // }
+                                  // value={startTime}
+                                  // onChange={handleStartTime}
+                                />
+                                {errors.fromTime && touched.fromTime && (
+                                  <div style={{ color: "red" }}>
+                                    {errors.fromTime}
+                                  </div>
+                                )}
+                              </Stack>
+                            </LocalizationProvider>
+                          </Box>
+                        </Grid>
+                        <Grid item xs={4}>
+                          <Box sx={{ marginBottom: "10px" }}>
+                            <SubHeading sx={{ marginBottom: "5px" }}>
+                              End Time
+                            </SubHeading>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                              <Stack spacing={3}>
+                                <TimePicker
+                                  label=""
+                                  value={endTime}
+                                  onChange={handleEndTime}
+                                />
+                              </Stack>
+                            </LocalizationProvider>
+                          </Box>
+                        </Grid>
+                      </Grid>
+
+                      <Box
+                        sx={{
+                          display: "flex",
+                          justifyContent: "end",
+                          marginTop: "20px",
+                        }}
+                      >
+                        <Button
+                          type="submit"
+                          variant="contained"
+                          // disabled={loader}
+                          sx={{
+                            padding: "5px 30px",
+                            textTransform: "capitalize",
+                            margin: "20px 0",
+                          }}
+                        >
+                          {/* {loader ? "Login..." : "Login"} */}
+                          Apply
+                        </Button>
+                      </Box>
+                    </Form>
+                  );
+                }}
+              </Formik>
+            </Box>
+          </Box>
+        </Box>
+      </Navbar>
     </div>
   );
 };
