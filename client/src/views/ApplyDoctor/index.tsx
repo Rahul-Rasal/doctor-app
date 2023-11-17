@@ -12,7 +12,6 @@ import PrimaryPhoneInput from "../../components/PhoneInput";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { Dayjs } from "dayjs";
 
 interface applyDoctorForm {
   firstName: string;
@@ -24,19 +23,10 @@ interface applyDoctorForm {
   experience: string;
   feePerConsultation: string;
   fromTime: string | null;
+  toTime: string | null;
 }
 
 const ApplyDoctor = () => {
-  const [startTime, setStartTime] = useState<Dayjs | null | any>(null);
-  const [endTime, setEndTime] = useState<Dayjs | null | any>(null);
-
-  const handleStartTime = (newValue: Dayjs | null) => {
-    setStartTime(newValue);
-  };
-
-  const handleEndTime = (newValue: Dayjs | null) => {
-    setEndTime(newValue);
-  };
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [formValues, setFormValues] = useState<applyDoctorForm>({
     firstName: "",
@@ -48,8 +38,13 @@ const ApplyDoctor = () => {
     experience: "",
     feePerConsultation: "",
     fromTime: null,
+    toTime: null,
   });
-  const applyDoctorHandler = async (data: applyDoctorForm) => {};
+
+  const applyDoctorHandler = async (data: applyDoctorForm) => {
+    console.log("payload", data);
+  };
+
   return (
     <div>
       <Navbar>
@@ -240,7 +235,7 @@ const ApplyDoctor = () => {
                               Experience
                             </SubHeading>
                             <PrimaryInput
-                              type="text"
+                              type="number"
                               label=""
                               name="experience"
                               placeholder="Experience"
@@ -267,7 +262,7 @@ const ApplyDoctor = () => {
                               Fee Per Consultation
                             </SubHeading>
                             <PrimaryInput
-                              type="text"
+                              type="number"
                               label=""
                               name="feePerConsultation"
                               placeholder="Fee Per Consultation"
@@ -302,20 +297,19 @@ const ApplyDoctor = () => {
                                   onChange={(value) => {
                                     setFieldValue("fromTime", value);
                                   }}
-                                  // error={
-                                  //   errors.fromTime && touched.fromTime
-                                  //     ? true
-                                  //     : false
-                                  // }
-                                  // value={startTime}
-                                  // onChange={handleStartTime}
                                 />
-                                {errors.fromTime && touched.fromTime && (
-                                  <div style={{ color: "red" }}>
-                                    {errors.fromTime}
-                                  </div>
-                                )}
                               </Stack>
+                              {errors.fromTime && touched.fromTime && (
+                                <Box
+                                  sx={{
+                                    color: "#d32f2f",
+                                    marginLeft: "2px",
+                                    fontSize: "0.7rem",
+                                  }}
+                                >
+                                  {errors.fromTime}
+                                </Box>
+                              )}
                             </LocalizationProvider>
                           </Box>
                         </Grid>
@@ -328,10 +322,23 @@ const ApplyDoctor = () => {
                               <Stack spacing={3}>
                                 <TimePicker
                                   label=""
-                                  value={endTime}
-                                  onChange={handleEndTime}
+                                  value={values.toTime}
+                                  onChange={(value) => {
+                                    setFieldValue("toTime", value);
+                                  }}
                                 />
                               </Stack>
+                              {errors.toTime && touched.toTime && (
+                                <Box
+                                  sx={{
+                                    color: "#d32f2f",
+                                    marginLeft: "2px",
+                                    fontSize: "0.7rem",
+                                  }}
+                                >
+                                  {errors.toTime}
+                                </Box>
+                              )}
                             </LocalizationProvider>
                           </Box>
                         </Grid>
