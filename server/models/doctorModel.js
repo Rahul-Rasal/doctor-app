@@ -24,7 +24,11 @@ const doctorSchema = new mongoose.Schema(
     },
     phoneNumber: {
       type: String,
-      required: [validator.isMobilePhone, "Please provide your phone number"],
+      validate: {
+        validator: validator.isMobilePhone,
+        message: "Please provide a valid phone number",
+      },
+      required: [true, "Please provide your phone number"],
     },
     website: {
       type: String,
@@ -53,6 +57,10 @@ const doctorSchema = new mongoose.Schema(
     toTime: {
       type: String,
       required: [true, "Please provide your to time"],
+    },
+    status: {
+      type: String,
+      default: "pending",
     },
   },
   {

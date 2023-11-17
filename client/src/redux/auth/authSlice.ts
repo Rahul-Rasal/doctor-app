@@ -31,5 +31,7 @@ export const selectedUserId = (state: RootState) =>
   state.auth?.user?.data?.user?._id;
 export const selectedUserName = (state: RootState) =>
   state.auth?.user?.data?.user?.name;
+  export const selectedUserEmail = (state: RootState) =>
+  state.auth?.user?.data?.user?.email;
 export const userIsAdmin = (state: RootState) =>
   state.auth?.user?.data?.user?.isAdmin;

@@ -2,6 +2,8 @@
 import { useState } from "react";
 import { Heading, SubHeading } from "../../components/Heading";
 import Navbar from "../../components/Navbar";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { Box, Button, Grid, Stack } from "@mui/material";
 import PrimaryInput from "../../components/PrimaryInput/PrimaryInput";
 import { onKeyDown } from "../../utils";
@@ -12,6 +14,11 @@ import PrimaryPhoneInput from "../../components/PhoneInput";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import ToastAlert from "../../components/ToastAlert/ToastAlert";
+import { alertsLoader, hideLoading, showLoading } from "../../redux/alertSlice";
+import { useDoctorSignupMutation } from "../../redux/api/doctorSlice";
+import useTypedSelector from "../../hooks/useTypedSelector";
+import { selectedUserEmail, selectedUserId } from "../../redux/auth/authSlice";
 
 interface applyDoctorForm {
   firstName: string;
@@ -27,6 +34,12 @@ interface applyDoctorForm {
 }
 
 const ApplyDoctor = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const userEmail = useTypedSelector(selectedUserEmail);
+  const userId = useTypedSelector(selectedUserId);
+  const loader = useTypedSelector(alertsLoader);
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [formValues, setFormValues] = useState<applyDoctorForm>({
     firstName: "",
@@ -41,8 +54,69 @@ const ApplyDoctor = () => {
     toTime: null,
   });
 
+  const [toast, setToast] = useState({
+    message: "",
+    appearence: false,
+    type: "",
+  });
+
+  const handleCloseToast = () => {
+    setToast({ ...toast, appearence: false });
+  };
+
+  const [applyDoctor] = useDoctorSignupMutation();
+
   const applyDoctorHandler = async (data: applyDoctorForm) => {
-    console.log("payload", data);
+    try {
+      dispatch(showLoading());
+      const payload = {
+        userId,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: userEmail,
+        phoneNumber: data.phoneNumber,
+        website: data.website,
+        address: data.address,
+        specialization: data.specialization,
+        experience: data.experience,
+        feePerConsultation: data.feePerConsultation,
+        fromTime: data?.fromTime,
+        toTime: data?.toTime,
+      };
+
+      const user: any = await applyDoctor(payload);
+
+      if (user?.data?.status) {
+        dispatch(hideLoading());
+        setToast({
+          ...toast,
+          message: "Doctor Account Applied Successfully",
+          appearence: true,
+          type: "success",
+        });
+        setTimeout(() => {
+          navigate("/");
+        }, 1500);
+      }
+      if (user?.error) {
+        dispatch(hideLoading());
+        setToast({
+          ...toast,
+          message: user?.error?.data?.message,
+          appearence: true,
+          type: "error",
+        });
+      }
+    } catch (error) {
+      console.error("Doctor Sign Up Error:", error);
+      dispatch(hideLoading());
+      setToast({
+        ...toast,
+        message: "Something went wrong",
+        appearence: true,
+        type: "error",
+      });
+    }
   };
 
   return (
@@ -354,15 +428,14 @@ const ApplyDoctor = () => {
                         <Button
                           type="submit"
                           variant="contained"
-                          // disabled={loader}
+                          disabled={loader}
                           sx={{
                             padding: "5px 30px",
                             textTransform: "capitalize",
                             margin: "20px 0",
                           }}
                         >
-                          {/* {loader ? "Login..." : "Login"} */}
-                          Apply
+                          {loader ? "Apply..." : "Apply"}
                         </Button>
                       </Box>
                     </Form>
@@ -373,6 +446,12 @@ const ApplyDoctor = () => {
           </Box>
         </Box>
       </Navbar>
+      <ToastAlert
+        appearence={toast.appearence}
+        type={toast.type}
+        message={toast.message}
+        handleClose={handleCloseToast}
+      />
     </div>
   );
 };
