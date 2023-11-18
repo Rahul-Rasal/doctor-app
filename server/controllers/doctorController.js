@@ -37,3 +37,41 @@ exports.doctorSignup = catchAsync(async (req, res, next) => {
     message: "Doctor account applied successfully",
   });
 });
+
+exports.notificationSeen = catchAsync(async (req, res, next) => {
+  const user = await User.findById(req.user._id);
+
+  const unseenNotifications = user.unseenNotifications;
+
+  // Move unseenNotifications to seenNotifications
+  user.seenNotifications.push(...unseenNotifications);
+
+  // Clear unseenNotifications
+  user.unseenNotifications = [];
+
+  const updatedUser = await user.save();
+  updatedUser.password = undefined;
+
+  res.status(200).send({
+    status: true,
+    message: "All notifications seen",
+    data: updatedUser, // Send the updated user data
+  });
+});
+
+exports.deleteNotifications = catchAsync(async (req, res, next) => {
+  const user = await User.findById(req.user._id);
+
+  user.seenNotifications = [];
+  user.unseenNotifications = [];
+
+  user.password = undefined;
+
+  await user.save();
+
+  res.status(200).send({
+    status: true,
+    message: "All notifications deleted",
+    data: user,
+  });
+});

@@ -31,6 +31,19 @@ interface applyDoctorForm {
   toTime: string | null;
 }
 
+const stepsStyle = {
+  position: "absolute",
+  background: "#5bc0de ",
+  color: "#fff",
+  left: "-40px",
+  width: "35px",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  borderTopLeftRadius: "10px",
+  borderBottomRightRadius: "10px",
+};
+
 const ApplyDoctor = () => {
   const navigate = useNavigate();
   const userEmail = useTypedSelector(selectedUserEmail);
@@ -121,11 +134,18 @@ const ApplyDoctor = () => {
               margin: "20px 0",
               background: "#fff",
               borderRadius: "6px",
-              padding: "20px",
+              padding: "20px 25px",
               boxShadow: "rgba(0, 0, 0, 0.16) 3px 16px 87px 0px",
             }}
           >
-            <SubHeading sx={{ marginBottom: "20px", fontSize: "17px" }}>
+            <SubHeading
+              sx={{
+                marginBottom: "20px",
+                fontSize: "17px",
+                position: "relative",
+              }}
+            >
+              <Box sx={stepsStyle}>1</Box>
               Basic Information
             </SubHeading>
             <Box>
@@ -264,7 +284,14 @@ const ApplyDoctor = () => {
                           </Box>
                         </Grid>
                       </Grid>
-                      <SubHeading sx={{ margin: "20px 0", fontSize: "17px" }}>
+                      <SubHeading
+                        sx={{
+                          margin: "20px 0",
+                          fontSize: "17px",
+                          position: "relative",
+                        }}
+                      >
+                        <Box sx={stepsStyle}>2</Box>
                         Professional Information
                       </SubHeading>
 

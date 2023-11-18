@@ -30,7 +30,11 @@ import { FaUsers } from "react-icons/fa";
 // Hooks
 import useTypedSelector from "../../hooks/useTypedSelector";
 // Auth
-import { selectedUserName, userIsAdmin } from "../../redux/auth/authSlice";
+import {
+  selectedUserName,
+  selectedUserNotifications,
+  userIsAdmin,
+} from "../../redux/auth/authSlice";
 // Custom
 import CustomChip from "../CustomChip";
 
@@ -114,6 +118,7 @@ export default function Navbar({ children }: DashboardProps) {
   const location = useLocation();
   const userName = useTypedSelector(selectedUserName);
   const isAdmin = useTypedSelector(userIsAdmin);
+  const userNotifications = useTypedSelector(selectedUserNotifications);
 
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
@@ -175,11 +180,30 @@ export default function Navbar({ children }: DashboardProps) {
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
             <CustomChip label={chipLabel} />
             <Box
-              sx={{ cursor: "pointer" }}
+              sx={{ cursor: "pointer", position: "relative" }}
               onClick={() => {
                 navigate("/notifications");
               }}
             >
+              {isAdmin && (
+                <Box
+                  sx={{
+                    position: "absolute",
+                    background: "rgb(235, 0, 20)",
+                    color: "#Fff",
+                    height: "20px",
+                    width: "20px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    borderRadius: "50%",
+                    left: "15px",
+                    top: "-8px",
+                  }}
+                >
+                  {userNotifications?.length}
+                </Box>
+              )}
               <Tooltip title="Notifications" placement="top">
                 <div>
                   <IoNotificationsCircleOutline style={{ fontSize: "25px" }} />

@@ -17,4 +17,16 @@ router.post(
   doctorController.doctorSignup
 );
 
+// NOTIFICATION FOR ADMIN
+router.post(
+  "/mark-all-notification-as-seen",
+  authController.protect,
+  doctorController.notificationSeen
+);
+router.post(
+  "/delete-all-notifications",
+  authController.protect,
+  doctorController.deleteNotifications
+);
+
 module.exports = router;
