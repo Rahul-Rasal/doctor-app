@@ -154,7 +154,7 @@ export default function Navbar({ children }: DashboardProps) {
   ];
 
   const routes = isAdmin ? adminRoutes : userRoutes;
-  const chipLabel = isAdmin ? "Admin" : "Users";
+  const chipLabel = isAdmin ? "Admin" : "";
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -178,7 +178,7 @@ export default function Navbar({ children }: DashboardProps) {
             {userName}
           </Typography>
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-            <CustomChip label={chipLabel} />
+            {chipLabel?.length > 0 && <CustomChip label={chipLabel} />}
             <Box
               sx={{ cursor: "pointer", position: "relative" }}
               onClick={() => {

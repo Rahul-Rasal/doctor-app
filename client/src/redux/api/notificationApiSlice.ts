@@ -8,7 +8,15 @@ export const notificationApiSlice = apiSlice.injectEndpoints({
         method: "POST",
       }),
     }),
+
+    deleteNotifications: builder.mutation({
+      query: () => ({
+        url: "users/delete-all-notifications",
+        method: "POST",
+      }),
+    }),
   }),
 });
 
-export const { useSeenNotificationsMutation } = notificationApiSlice;
+export const { useSeenNotificationsMutation, useDeleteNotificationsMutation } =
+  notificationApiSlice;

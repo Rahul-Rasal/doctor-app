@@ -11,7 +11,10 @@ import {
   setUser,
 } from "../../redux/auth/authSlice";
 import { useNavigate } from "react-router-dom";
-import { useSeenNotificationsMutation } from "../../redux/api/notificationApiSlice";
+import {
+  useDeleteNotificationsMutation,
+  useSeenNotificationsMutation,
+} from "../../redux/api/notificationApiSlice";
 import ToastAlert from "../../components/ToastAlert/ToastAlert";
 import { useDispatch } from "react-redux";
 
@@ -68,6 +71,31 @@ const Notifications = () => {
 
   const handleCloseToast = () => {
     setToast({ ...toast, appearence: false });
+  };
+
+  const [deleteNotifications, { isLoading: deleteNotiLoading }] =
+    useDeleteNotificationsMutation();
+
+  const deleteNotificationsHandler = async () => {
+    try {
+      const response: any = await deleteNotifications({});
+      if (response.status) {
+        setToast({
+          ...toast,
+          message: "All Notifications are deleted",
+          appearence: true,
+          type: "success",
+        });
+      }
+    } catch (error) {
+      console.error("Deleting Notification Error:", error);
+      setToast({
+        ...toast,
+        message: "Something went wrong",
+        appearence: true,
+        type: "error",
+      });
+    }
   };
 
   const [seenNotification, { isLoading }] = useSeenNotificationsMutation();
@@ -140,14 +168,14 @@ const Notifications = () => {
                 aria-label="basic tabs example"
               >
                 <Tab
-                  label="Unread"
+                  label="Unseen"
                   sx={{ textTransform: "capitalize", fontSize: "16px" }}
                   {...a11yProps(0)}
                   icon={<MdMarkChatUnread />}
                   iconPosition="start"
                 />
                 <Tab
-                  label="Read"
+                  label="Seen"
                   sx={{ textTransform: "capitalize", fontSize: "16px" }}
                   {...a11yProps(1)}
                   icon={<MdMarkChatRead />}
@@ -156,12 +184,16 @@ const Notifications = () => {
               </Tabs>
             </Box>
             <CustomTabPanel value={value} index={0}>
-              <Box sx={{ display: "flex", justifyContent: "end" }}>
-                <Button onClick={readNotificationHandler} disabled={isLoading}>
-                  Mark all as read
-                </Button>
-              </Box>
-
+              {userNotifications?.length > 0 && (
+                <Box sx={{ display: "flex", justifyContent: "end" }}>
+                  <Button
+                    onClick={readNotificationHandler}
+                    disabled={isLoading}
+                  >
+                    Mark all as read
+                  </Button>
+                </Box>
+              )}
               {userNotifications?.map((notification: any) => {
                 return (
                   <>
@@ -204,9 +236,17 @@ const Notifications = () => {
               })}
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
-              <Box sx={{ display: "flex", justifyContent: "end" }}>
-                <Button color="error">Delete All</Button>
-              </Box>
+              {readNotifications?.length > 0 && (
+                <Box sx={{ display: "flex", justifyContent: "end" }}>
+                  <Button
+                    disabled={deleteNotiLoading}
+                    onClick={deleteNotificationsHandler}
+                    color="error"
+                  >
+                    Delete All
+                  </Button>
+                </Box>
+              )}
 
               {readNotifications?.map((notification: any) => {
                 return (
