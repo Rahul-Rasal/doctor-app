@@ -42,11 +42,8 @@ exports.notificationSeen = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id);
 
   const unseenNotifications = user.unseenNotifications;
+  user.seenNotifications = unseenNotifications;
 
-  // Move unseenNotifications to seenNotifications
-  user.seenNotifications.push(...unseenNotifications);
-
-  // Clear unseenNotifications
   user.unseenNotifications = [];
 
   const updatedUser = await user.save();
