@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { Heading, SubHeading } from "../../components/Heading";
 import Navbar from "../../components/Navbar";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Box, Button, Grid, Stack } from "@mui/material";
 import PrimaryInput from "../../components/PrimaryInput/PrimaryInput";
@@ -15,7 +14,6 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import ToastAlert from "../../components/ToastAlert/ToastAlert";
-import { alertsLoader, hideLoading, showLoading } from "../../redux/alertSlice";
 import { useDoctorSignupMutation } from "../../redux/api/doctorSlice";
 import useTypedSelector from "../../hooks/useTypedSelector";
 import { selectedUserEmail, selectedUserId } from "../../redux/auth/authSlice";
@@ -34,11 +32,9 @@ interface applyDoctorForm {
 }
 
 const ApplyDoctor = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const userEmail = useTypedSelector(selectedUserEmail);
   const userId = useTypedSelector(selectedUserId);
-  const loader = useTypedSelector(alertsLoader);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [formValues, setFormValues] = useState<applyDoctorForm>({
@@ -68,7 +64,6 @@ const ApplyDoctor = () => {
 
   const applyDoctorHandler = async (data: applyDoctorForm) => {
     try {
-      // dispatch(showLoading());
       const payload = {
         userId,
         firstName: data.firstName,
@@ -87,7 +82,6 @@ const ApplyDoctor = () => {
       const user: any = await applyDoctor(payload);
 
       if (user?.data?.status) {
-        // dispatch(hideLoading());
         setToast({
           ...toast,
           message: "Doctor Account Applied Successfully",
@@ -99,7 +93,6 @@ const ApplyDoctor = () => {
         }, 1500);
       }
       if (user?.error) {
-        // dispatch(hideLoading());
         setToast({
           ...toast,
           message: user?.error?.data?.message,
@@ -109,7 +102,6 @@ const ApplyDoctor = () => {
       }
     } catch (error) {
       console.error("Doctor Sign Up Error:", error);
-      // dispatch(hideLoading());
       setToast({
         ...toast,
         message: "Something went wrong",
@@ -120,7 +112,7 @@ const ApplyDoctor = () => {
   };
 
   return (
-    <div>
+    <>
       <Navbar>
         <Box sx={{ margin: "" }}>
           <Heading>Apply For Doctor</Heading>
@@ -452,7 +444,7 @@ const ApplyDoctor = () => {
         message={toast.message}
         handleClose={handleCloseToast}
       />
-    </div>
+    </>
   );
 };
 

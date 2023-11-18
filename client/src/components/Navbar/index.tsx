@@ -174,7 +174,12 @@ export default function Navbar({ children }: DashboardProps) {
           </Typography>
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
             <CustomChip label={chipLabel} />
-            <Box sx={{ cursor: "pointer" }}>
+            <Box
+              sx={{ cursor: "pointer" }}
+              onClick={() => {
+                navigate("/notifications");
+              }}
+            >
               <Tooltip title="Notifications" placement="top">
                 <div>
                   <IoNotificationsCircleOutline style={{ fontSize: "25px" }} />

@@ -4,6 +4,16 @@ const Doctor = require("../models/doctorModel");
 const User = require("../models/userModel");
 
 exports.doctorSignup = catchAsync(async (req, res, next) => {
+  // find doctor if already applied
+  const doctor = await Doctor.findOne({ email: req.body.email });
+  if (doctor)
+    return next(
+      new AppError(
+        "Doctor already applied Please contact your admin clinic",
+        400
+      )
+    );
+
   const newDoctor = new Doctor({ ...req.body, status: "pending" });
   await newDoctor.save();
 

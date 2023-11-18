@@ -10,6 +10,7 @@ import ApplyDoctor from "./views/ApplyDoctor";
 import Profile from "./views/Profile";
 import Doctors from "./views/Doctors";
 import Users from "./views/Users";
+import Notifications from "./views/Notifications";
 
 function App() {
   return (
@@ -78,6 +79,14 @@ function App() {
             element={
               <ProtectedRoutes>
                 <Profile />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/notifications"
+            element={
+              <ProtectedRoutes>
+                <Notifications />
               </ProtectedRoutes>
             }
           />

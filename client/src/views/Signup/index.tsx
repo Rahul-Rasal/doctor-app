@@ -1,7 +1,6 @@
 // React Imports
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
 // React Icons
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 // Formik Imports
@@ -20,8 +19,6 @@ import PrimaryInput from "../../components/PrimaryInput/PrimaryInput";
 import NextWhiteLogo from "../../assets/images/nexCenterLogo.svg";
 // Redux API
 import { useSignupMutation } from "../../redux/api/authApiSlice";
-import useTypedSelector from "../../hooks/useTypedSelector";
-import { alertsLoader, hideLoading, showLoading } from "../../redux/alertSlice";
 
 interface ISSignupForm {
   name: string;
@@ -30,9 +27,7 @@ interface ISSignupForm {
 }
 
 const Signup = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const loader = useTypedSelector(alertsLoader);
   // states
   const [showPassword, setShowPassword] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -65,11 +60,9 @@ const Signup = () => {
       password: data.password,
     };
     try {
-      // dispatch(showLoading());
       const user: any = await signupUser(payload);
 
       if (user?.data?.status) {
-        // dispatch(hideLoading());
         setToast({
           ...toast,
           message: "User Successfully Created",
@@ -81,7 +74,6 @@ const Signup = () => {
         }, 1500);
       }
       if (user?.error) {
-        // dispatch(hideLoading());
         setToast({
           ...toast,
           message: user?.error?.data?.message,
@@ -91,7 +83,6 @@ const Signup = () => {
       }
     } catch (error) {
       console.error("SignUp Error:", error);
-      dispatch(hideLoading());
       setToast({
         ...toast,
         message: "Something went wrong",
