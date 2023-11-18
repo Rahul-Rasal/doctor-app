@@ -47,11 +47,12 @@ exports.notificationSeen = catchAsync(async (req, res, next) => {
   user.unseenNotifications = [];
 
   const updatedUser = await user.save();
+  updatedUser.password = undefined;
 
   res.status(200).send({
     status: true,
     message: "All notifications seen",
-    data: updatedUser, // Send the updated user data
+    data: updatedUser,
   });
 });
 
@@ -62,10 +63,11 @@ exports.deleteNotifications = catchAsync(async (req, res, next) => {
   user.unseenNotifications = [];
 
   const updatedUser = await user.save();
+  updatedUser.password = undefined;
 
   res.status(200).send({
     status: true,
     message: "All notifications deleted",
-    data: updatedUser, // Send the updated user data
+    data: updatedUser,
   });
 });

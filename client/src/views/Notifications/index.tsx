@@ -78,13 +78,37 @@ const Notifications = () => {
 
   const deleteNotificationsHandler = async () => {
     try {
+      const userData = localStorage.getItem("user");
+      const user = JSON.parse(userData!);
       const response: any = await deleteNotifications({});
-      if (response.status) {
+      if (response.data.status) {
         setToast({
           ...toast,
           message: "All Notifications are deleted",
           appearence: true,
           type: "success",
+        });
+
+        const updatedUser = {
+          ...user,
+          data: {
+            ...user.data,
+            user: {
+              ...user.data.user,
+              seenNotifications: response.data.data.seenNotifications,
+              unseenNotifications: response.data.data.unseenNotifications,
+            },
+          },
+        };
+        dispatch(setUser(updatedUser));
+        localStorage.setItem("user", JSON.stringify(updatedUser));
+      }
+      if (response?.error) {
+        setToast({
+          ...toast,
+          message: user?.error?.data?.message,
+          appearence: true,
+          type: "error",
         });
       }
     } catch (error) {
