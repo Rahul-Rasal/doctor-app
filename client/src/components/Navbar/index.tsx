@@ -185,7 +185,7 @@ export default function Navbar({ children }: DashboardProps) {
                 navigate("/notifications");
               }}
             >
-              {isAdmin && (
+              {isAdmin && userNotifications?.length > 0 && (
                 <Box
                   sx={{
                     position: "absolute",

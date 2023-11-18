@@ -5,7 +5,11 @@ import { Box, Tabs, Tab, Typography, Button } from "@mui/material";
 import { MdMarkChatUnread } from "react-icons/md";
 import { MdMarkChatRead } from "react-icons/md";
 import useTypedSelector from "../../hooks/useTypedSelector";
-import { selectedUserNotifications, setUser } from "../../redux/auth/authSlice";
+import {
+  selectedUserNotifications,
+  selectedUserReadNotifications,
+  setUser,
+} from "../../redux/auth/authSlice";
 import { useNavigate } from "react-router-dom";
 import { useSeenNotificationsMutation } from "../../redux/api/notificationApiSlice";
 import ToastAlert from "../../components/ToastAlert/ToastAlert";
@@ -48,6 +52,7 @@ const Notifications = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const userNotifications = useTypedSelector(selectedUserNotifications);
+  const readNotifications = useTypedSelector(selectedUserReadNotifications);
 
   const [value, setValue] = React.useState(0);
 
@@ -71,19 +76,26 @@ const Notifications = () => {
     try {
       const userData = localStorage.getItem("user");
       const user = JSON.parse(userData!);
-
       const response: any = await seenNotification({});
-      if (response.status) {
+
+      if (response.data.status) {
         setToast({
           ...toast,
           message: "Marked all as read",
           appearence: true,
           type: "success",
         });
+
         const updatedUser = {
-          ...user.data,
-          seenNotifications: [],
-          unseenNotifications: [],
+          ...user,
+          data: {
+            ...user.data,
+            user: {
+              ...user.data.user,
+              seenNotifications: response.data.data.seenNotifications,
+              unseenNotifications: response.data.data.unseenNotifications,
+            },
+          },
         };
         dispatch(setUser(updatedUser));
         localStorage.setItem("user", JSON.stringify(updatedUser));
@@ -195,6 +207,47 @@ const Notifications = () => {
               <Box sx={{ display: "flex", justifyContent: "end" }}>
                 <Button color="error">Delete All</Button>
               </Box>
+
+              {readNotifications?.map((notification: any) => {
+                return (
+                  <>
+                    <Box
+                      sx={{
+                        border: "1px solid #E5EAF2",
+                        padding: "14px 24px",
+                        borderRadius: "12px",
+                        marginBottom: "20px",
+                        cursor: "pointer",
+                      }}
+                      key={notification.data.doctorId}
+                      onClick={() => {
+                        navigate(notification.onClickPath);
+                      }}
+                    >
+                      <Box
+                        sx={{ display: "flex", gap: 2, marginBottom: "5px" }}
+                      >
+                        <Box sx={{ minWidth: "100px" }}>Name:</Box>
+                        <Box>{notification.data.name}</Box>
+                      </Box>
+                      <Box
+                        sx={{ display: "flex", gap: 2, marginBottom: "5px" }}
+                      >
+                        <Box sx={{ minWidth: "100px" }}>Title:</Box>
+                        <Box>
+                          {notification.type === "new-doctor-request"
+                            ? "New Doctor Request"
+                            : ""}
+                        </Box>
+                      </Box>
+                      <Box sx={{ display: "flex", gap: 2 }}>
+                        <Box sx={{ minWidth: "100px" }}>Message:</Box>
+                        <Box>{notification.message}</Box>
+                      </Box>
+                    </Box>
+                  </>
+                );
+              })}
             </CustomTabPanel>
           </Box>
         </Box>

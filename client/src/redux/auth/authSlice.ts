@@ -35,5 +35,7 @@ export const selectedUserEmail = (state: RootState) =>
   state.auth?.user?.data?.user?.email;
 export const selectedUserNotifications = (state: RootState) =>
   state.auth?.user?.data?.user?.unseenNotifications;
+export const selectedUserReadNotifications = (state: RootState) =>
+  state.auth?.user?.data?.user?.seenNotifications;
 export const userIsAdmin = (state: RootState) =>
   state.auth?.user?.data?.user?.isAdmin;
