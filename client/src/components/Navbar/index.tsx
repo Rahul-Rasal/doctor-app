@@ -144,6 +144,16 @@ export default function Navbar({ children }: DashboardProps) {
     { text: "Profile", icon: FaRegCircleUser, path: "/profile" },
   ];
 
+  const doctorRoutes = [
+    { text: "Home", icon: IoHomeOutline, path: "/" },
+    {
+      text: "Appointments",
+      icon: IoDocumentTextOutline,
+      path: "/appointments",
+    },
+    { text: "Profile", icon: FaRegCircleUser, path: "/profile" },
+  ];
+
   const adminRoutes = [
     { text: "Home", icon: IoHomeOutline, path: "/" },
     {
@@ -155,7 +165,7 @@ export default function Navbar({ children }: DashboardProps) {
     { text: "Profile", icon: FaRegCircleUser, path: "/profile" },
   ];
 
-  const routes = isAdmin ? adminRoutes : userRoutes;
+  const routes = isAdmin ? adminRoutes : isDoctor ? doctorRoutes : userRoutes;
   const chipLabel = isAdmin ? "Admin" : isDoctor ? "Doctor" : "";
 
   return (
