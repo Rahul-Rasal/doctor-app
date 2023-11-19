@@ -8,7 +8,13 @@ export const userApiSlice = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    getAllUsers: builder.query({
+      query: () => ({
+        url: "/users",
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useVerifyUserQuery } = userApiSlice;
+export const { useVerifyUserQuery, useGetAllUsersQuery } = userApiSlice;

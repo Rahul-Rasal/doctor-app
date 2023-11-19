@@ -32,5 +32,6 @@ router.post(
 
 // USERS
 router.get("/verify-user", authController.protect, userController.verifyUser);
+router.get("/", userController.getAllUsers);
 
 module.exports = router;
