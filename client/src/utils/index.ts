@@ -37,3 +37,15 @@ export const maskingPhoneNumber = (value: any) => {
     return phoneNumber.formatNational();
   }
 };
+
+// Notification Friendly Messages
+export function processNotification(notification: string) {
+  switch (notification) {
+    case "new-doctor-request":
+      return "New Doctor 🩺 Request";
+    case "new-doctor-request-changed":
+      return "🎉 Your requested successfully accepted";
+    default:
+      return "Unknown Notification";
+  }
+}

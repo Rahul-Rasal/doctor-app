@@ -17,6 +17,7 @@ import {
 } from "../../redux/api/notificationApiSlice";
 import ToastAlert from "../../components/ToastAlert/ToastAlert";
 import { useDispatch } from "react-redux";
+import { processNotification } from "../../utils";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -244,7 +245,7 @@ const Notifications = () => {
                         sx={{ display: "flex", gap: 2, marginBottom: "5px" }}
                       >
                         <Box sx={{ minWidth: "100px" }}>Title:</Box>
-                        <Box>{notification?.type}</Box>
+                        <Box>{processNotification(notification?.type)}</Box>
                       </Box>
                       <Box sx={{ display: "flex", gap: 2 }}>
                         <Box sx={{ minWidth: "100px" }}>Message:</Box>
@@ -294,7 +295,7 @@ const Notifications = () => {
                         sx={{ display: "flex", gap: 2, marginBottom: "5px" }}
                       >
                         <Box sx={{ minWidth: "100px" }}>Title:</Box>
-                        <Box>{notification.type}</Box>
+                        <Box>{processNotification(notification.type)}</Box>
                       </Box>
                       <Box sx={{ display: "flex", gap: 2 }}>
                         <Box sx={{ minWidth: "100px" }}>Message:</Box>
