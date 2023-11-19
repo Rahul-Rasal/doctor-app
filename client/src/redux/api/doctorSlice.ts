@@ -11,7 +11,14 @@ export const doctorApiSlice = apiSlice.injectEndpoints({
         };
       },
     }),
+    getAllDoctors: builder.query({
+      query: () => ({
+        url: "/users/doctors",
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useDoctorSignupMutation } = doctorApiSlice;
+export const { useDoctorSignupMutation, useGetAllDoctorsQuery } =
+  doctorApiSlice;

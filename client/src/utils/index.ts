@@ -1,3 +1,5 @@
+import { parsePhoneNumber } from "libphonenumber-js";
+
 // prevent auto form submission
 export function onKeyDown(keyEvent: any) {
   if ((keyEvent.charCode || keyEvent.keyCode) === 13) {
@@ -10,6 +12,7 @@ export const removeDashAndSpace = (value: string) => {
   return value.replace(/[- ]/g, "");
 };
 
+// Format Date Time 2023-11-19T08:58:06.435Z => 11/19/2023, 1:58:06 PM
 export function formatDateTime(dateString: string) {
   const options: Intl.DateTimeFormatOptions = {
     day: "2-digit",
@@ -26,3 +29,11 @@ export function formatDateTime(dateString: string) {
 
   return formattedDateTime;
 }
+
+// Masking Mobile Number +923234910944 =>
+export const maskingPhoneNumber = (value: any) => {
+  if (value) {
+    const phoneNumber = parsePhoneNumber(value);
+    return phoneNumber.formatNational();
+  }
+};

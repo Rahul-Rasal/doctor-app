@@ -17,6 +17,7 @@ router.post(
   authController.protect,
   doctorController.doctorSignup
 );
+router.get("/doctors", doctorController.getAllDoctors);
 
 // NOTIFICATION FOR ADMIN
 router.post(

@@ -20,10 +20,6 @@ const CustomChip = ({ label }: Props) => {
     let bgColor: string;
 
     switch (status) {
-      case "User":
-        color = "#13B981";
-        bgColor = "#E7F8F2";
-        break;
       case "Doctor":
         color = "#4bade8";
         bgColor = convertColorToRgb(color);
@@ -31,6 +27,14 @@ const CustomChip = ({ label }: Props) => {
       case "Admin":
         color = "#f5a623";
         bgColor = convertColorToRgb(color);
+        break;
+      case "Pending":
+        color = "#348BAD";
+        bgColor = convertColorToRgb(color);
+        break;
+      case "Approved":
+        color = "#13B981";
+        bgColor = "#E7F8F2";
         break;
       default:
         color = `#292929`;
@@ -44,7 +48,7 @@ const CustomChip = ({ label }: Props) => {
   };
 
   const chipStyle = {
-    minWidth: "80px",
+    width: "fit-content",
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-start",
@@ -53,10 +57,6 @@ const CustomChip = ({ label }: Props) => {
     fontWeight: 600,
     border: `1px solid ${getChipData(label).color}`,
     fontSize: "12px",
-    "@media (max-width: 530px)": {
-      height: "30px",
-      minWidth: "125px",
-    },
     padding: "0 10px",
     height: "30px",
   };
@@ -66,7 +66,6 @@ const CustomChip = ({ label }: Props) => {
       <Box
         sx={{
           ...chipStyle,
-          minWidth: "50px",
           justifyContent: "center",
           height: "30px",
         }}

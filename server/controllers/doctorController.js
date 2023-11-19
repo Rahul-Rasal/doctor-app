@@ -71,3 +71,13 @@ exports.deleteNotifications = catchAsync(async (req, res, next) => {
     data: updatedUser,
   });
 });
+
+exports.getAllDoctors = catchAsync(async (req, res, next) => {
+  const doctors = await Doctor.find();
+
+  res.status(200).send({
+    status: true,
+    message: "All doctors fetched successfully",
+    data: doctors,
+  });
+});
