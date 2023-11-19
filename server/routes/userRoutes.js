@@ -18,6 +18,7 @@ router.post(
   doctorController.doctorSignup
 );
 router.get("/doctors", doctorController.getAllDoctors);
+router.get("/doctors/:id", authController.protect, doctorController.getDoctor);
 
 // NOTIFICATION FOR ADMIN
 router.post(
@@ -39,5 +40,6 @@ router.post(
 // USERS
 router.get("/verify-user", authController.protect, userController.verifyUser);
 router.get("/", userController.getAllUsers);
+router.get("/:id", authController.protect, userController.getUser);
 
 module.exports = router;

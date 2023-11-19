@@ -31,6 +31,7 @@ import { FaUsers } from "react-icons/fa";
 import useTypedSelector from "../../hooks/useTypedSelector";
 // Auth
 import {
+  selectedUserId,
   selectedUserName,
   selectedUserNotifications,
   userIsAdmin,
@@ -120,6 +121,7 @@ export default function Navbar({ children }: DashboardProps) {
   const userName = useTypedSelector(selectedUserName);
   const isAdmin = useTypedSelector(userIsAdmin);
   const isDoctor = useTypedSelector(userIsDoctor);
+  const userId = useTypedSelector(selectedUserId);
   const userNotifications = useTypedSelector(selectedUserNotifications);
 
   const theme = useTheme();
@@ -141,7 +143,7 @@ export default function Navbar({ children }: DashboardProps) {
       path: "/appointments",
     },
     { text: "Apply Doctor", icon: FaUserDoctor, path: "/apply-doctor" },
-    { text: "Profile", icon: FaRegCircleUser, path: "/profile" },
+    { text: "Profile", icon: FaRegCircleUser, path: `/profile/${userId}` },
   ];
 
   const doctorRoutes = [
@@ -151,7 +153,7 @@ export default function Navbar({ children }: DashboardProps) {
       icon: IoDocumentTextOutline,
       path: "/appointments",
     },
-    { text: "Profile", icon: FaRegCircleUser, path: "/profile" },
+    { text: "Profile", icon: FaRegCircleUser, path: `/profile/${userId}` },
   ];
 
   const adminRoutes = [
@@ -162,7 +164,7 @@ export default function Navbar({ children }: DashboardProps) {
       path: "/users",
     },
     { text: "Doctors", icon: FaUserDoctor, path: "/doctors" },
-    { text: "Profile", icon: FaRegCircleUser, path: "/profile" },
+    { text: "Profile", icon: FaRegCircleUser, path: `/profile/${userId}` },
   ];
 
   const routes = isAdmin ? adminRoutes : isDoctor ? doctorRoutes : userRoutes;

@@ -111,3 +111,14 @@ exports.doctorStatus = catchAsync(async (req, res, next) => {
     data: doctors,
   });
 });
+
+exports.getDoctor = catchAsync(async (req, res, next) => {
+  const doctor = await Doctor.findOne({ userId: req.params.id });
+  if (!doctor) return next(new AppError("Doctor not found", 404));
+
+  res.status(200).send({
+    status: true,
+    message: "Doctor fetched successfully",
+    data: doctor,
+  });
+});
