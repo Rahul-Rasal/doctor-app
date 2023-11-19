@@ -30,6 +30,11 @@ router.post(
   authController.protect,
   doctorController.deleteNotifications
 );
+router.post(
+  "/change-doctor-status",
+  authController.protect,
+  doctorController.doctorStatus
+);
 
 // USERS
 router.get("/verify-user", authController.protect, userController.verifyUser);

@@ -229,30 +229,26 @@ const Notifications = () => {
                         marginBottom: "20px",
                         cursor: "pointer",
                       }}
-                      key={notification.data.doctorId}
+                      key={notification?.data?.doctorId}
                       onClick={() => {
-                        navigate(notification.onClickPath);
+                        navigate(notification?.onClickPath);
                       }}
                     >
                       <Box
                         sx={{ display: "flex", gap: 2, marginBottom: "5px" }}
                       >
                         <Box sx={{ minWidth: "100px" }}>Name:</Box>
-                        <Box>{notification.data.name}</Box>
+                        <Box>{notification?.data?.name}</Box>
                       </Box>
                       <Box
                         sx={{ display: "flex", gap: 2, marginBottom: "5px" }}
                       >
                         <Box sx={{ minWidth: "100px" }}>Title:</Box>
-                        <Box>
-                          {notification.type === "new-doctor-request"
-                            ? "New Doctor Request"
-                            : ""}
-                        </Box>
+                        <Box>{notification?.type}</Box>
                       </Box>
                       <Box sx={{ display: "flex", gap: 2 }}>
                         <Box sx={{ minWidth: "100px" }}>Message:</Box>
-                        <Box>{notification.message}</Box>
+                        <Box>{notification?.message}</Box>
                       </Box>
                     </Box>
                   </>
@@ -283,30 +279,26 @@ const Notifications = () => {
                         marginBottom: "20px",
                         cursor: "pointer",
                       }}
-                      key={notification.data.doctorId}
+                      key={notification?.data?.doctorId}
                       onClick={() => {
-                        navigate(notification.onClickPath);
+                        navigate(notification?.onClickPath);
                       }}
                     >
                       <Box
                         sx={{ display: "flex", gap: 2, marginBottom: "5px" }}
                       >
                         <Box sx={{ minWidth: "100px" }}>Name:</Box>
-                        <Box>{notification.data.name}</Box>
+                        <Box>{notification?.data?.name}</Box>
                       </Box>
                       <Box
                         sx={{ display: "flex", gap: 2, marginBottom: "5px" }}
                       >
                         <Box sx={{ minWidth: "100px" }}>Title:</Box>
-                        <Box>
-                          {notification.type === "new-doctor-request"
-                            ? "New Doctor Request"
-                            : ""}
-                        </Box>
+                        <Box>{notification.type}</Box>
                       </Box>
                       <Box sx={{ display: "flex", gap: 2 }}>
                         <Box sx={{ minWidth: "100px" }}>Message:</Box>
-                        <Box>{notification.message}</Box>
+                        <Box>{notification?.message}</Box>
                       </Box>
                     </Box>
                   </>

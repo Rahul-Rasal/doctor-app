@@ -34,6 +34,7 @@ import {
   selectedUserName,
   selectedUserNotifications,
   userIsAdmin,
+  userIsDoctor,
 } from "../../redux/auth/authSlice";
 // Custom
 import CustomChip from "../CustomChip";
@@ -118,6 +119,7 @@ export default function Navbar({ children }: DashboardProps) {
   const location = useLocation();
   const userName = useTypedSelector(selectedUserName);
   const isAdmin = useTypedSelector(userIsAdmin);
+  const isDoctor = useTypedSelector(userIsDoctor);
   const userNotifications = useTypedSelector(selectedUserNotifications);
 
   const theme = useTheme();
@@ -154,7 +156,7 @@ export default function Navbar({ children }: DashboardProps) {
   ];
 
   const routes = isAdmin ? adminRoutes : userRoutes;
-  const chipLabel = isAdmin ? "Admin" : "";
+  const chipLabel = isAdmin ? "Admin" : isDoctor ? "Doctor" : "";
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -185,7 +187,7 @@ export default function Navbar({ children }: DashboardProps) {
                 navigate("/notifications");
               }}
             >
-              {isAdmin && userNotifications?.length > 0 && (
+              {userNotifications?.length > 0 && (
                 <Box
                   sx={{
                     position: "absolute",

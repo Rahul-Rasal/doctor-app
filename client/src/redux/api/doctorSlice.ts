@@ -16,9 +16,23 @@ export const doctorApiSlice = apiSlice.injectEndpoints({
         url: "/users/doctors",
         method: "GET",
       }),
+      providesTags: ["Doctors"],
+    }),
+    changeDoctorStatus: builder.mutation({
+      query: (data) => {
+        return {
+          url: "users/change-doctor-status",
+          method: "POST",
+          body: data,
+        };
+      },
+      invalidatesTags: ["Doctors"],
     }),
   }),
 });
 
-export const { useDoctorSignupMutation, useGetAllDoctorsQuery } =
-  doctorApiSlice;
+export const {
+  useDoctorSignupMutation,
+  useGetAllDoctorsQuery,
+  useChangeDoctorStatusMutation,
+} = doctorApiSlice;

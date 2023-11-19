@@ -39,3 +39,5 @@ export const selectedUserReadNotifications = (state: RootState) =>
   state.auth?.user?.data?.user?.seenNotifications;
 export const userIsAdmin = (state: RootState) =>
   state.auth?.user?.data?.user?.isAdmin;
+export const userIsDoctor = (state: RootState) =>
+  state.auth?.user?.data?.user?.isDoctor;
