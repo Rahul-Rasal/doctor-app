@@ -3,6 +3,7 @@ const express = require("express");
 // Custom Imports
 const authController = require("../controllers/authController");
 const doctorController = require("../controllers/doctorController");
+const userController = require("../controllers/userController");
 
 const router = express.Router();
 
@@ -28,5 +29,8 @@ router.post(
   authController.protect,
   doctorController.deleteNotifications
 );
+
+// USERS
+router.get("/verify-user", authController.protect, userController.verifyUser);
 
 module.exports = router;

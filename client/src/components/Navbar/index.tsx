@@ -191,14 +191,15 @@ export default function Navbar({ children }: DashboardProps) {
                     position: "absolute",
                     background: "rgb(235, 0, 20)",
                     color: "#Fff",
-                    height: "20px",
-                    width: "20px",
+                    height: "18px",
+                    width: "18px",
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
                     borderRadius: "50%",
                     left: "15px",
                     top: "-8px",
+                    fontSize: "11px",
                   }}
                 >
                   {userNotifications?.length}

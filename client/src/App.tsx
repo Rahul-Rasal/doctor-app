@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Dashboard from "./views/Dashboard";
 import Login from "./views/Login";
@@ -11,10 +13,38 @@ import Profile from "./views/Profile";
 import Doctors from "./views/Doctors";
 import Users from "./views/Users";
 import Notifications from "./views/Notifications";
+import { useVerifyUserQuery } from "./redux/api/userSlice";
+import { useDispatch } from "react-redux";
+import { setUser } from "./redux/auth/authSlice";
+import OverlayLoader from "./components/Spinner/OverlayLoader";
 
 function App() {
+  const dispatch = useDispatch();
+  const { data, isLoading, isSuccess } = useVerifyUserQuery({});
+
+  useEffect(() => {
+    const userData = localStorage.getItem("user");
+    const user = JSON.parse(userData!);
+    if (isSuccess) {
+      const updatedUser = {
+        ...user,
+        data: {
+          ...user.data,
+          user: {
+            ...user.data.user,
+            seenNotifications: data.data.seenNotifications,
+            unseenNotifications: data.data.unseenNotifications,
+          },
+        },
+      };
+      dispatch(setUser(updatedUser));
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+    }
+  }, [data]);
+
   return (
     <>
+      {isLoading && <OverlayLoader />}
       <Router>
         <Routes>
           <Route
