@@ -122,3 +122,21 @@ exports.getDoctor = catchAsync(async (req, res, next) => {
     data: doctor,
   });
 });
+
+exports.updateDoctor = catchAsync(async (req, res, next) => {
+  const { body } = req.body;
+
+  const doctor = await Doctor.findOneAndUpdate(
+    { userId: req.params.id },
+    body,
+    { new: true }
+  );
+
+  if (!doctor) return next(new AppError("Doctor not found", 404));
+
+  res.status(200).send({
+    status: true,
+    message: "Doctor updated successfully",
+    data: doctor,
+  });
+});

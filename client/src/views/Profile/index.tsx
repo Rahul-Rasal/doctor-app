@@ -15,6 +15,7 @@ import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { onKeyDown } from "../../utils";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { applyDoctorSchema } from "../ApplyDoctor/components/validationSchema";
+import { useUpdateDoctorMutation } from "../../redux/api/doctorSlice";
 
 interface ProfileForm {
   firstName: string;
@@ -68,7 +69,12 @@ const Profile = () => {
     setToast({ ...toast, appearence: false });
   };
 
-  const { data, isLoading, isSuccess } = useGetUserQuery({
+  const {
+    data,
+    isLoading,
+    isSuccess,
+    refetch: refetchUser,
+  } = useGetUserQuery({
     userId,
   });
 
@@ -89,7 +95,53 @@ const Profile = () => {
     }
   }, [data, isSuccess]);
 
-  const profileHandler = async (data: ProfileForm) => {};
+  const [updateProfile, { isLoading: profileLoading }] =
+    useUpdateDoctorMutation({});
+
+  const profileHandler = async (data: ProfileForm) => {
+    try {
+      const payload = {
+        firstName: data?.firstName,
+        lastName: data?.lastName,
+        phoneNumber: data?.phoneNumber,
+        website: data?.website,
+        address: data?.address,
+        specialization: data?.specialization,
+        experience: data?.experience,
+        feePerConsultation: data?.feePerConsultation,
+        fromTime: data?.fromTime,
+        toTime: data?.toTime,
+      };
+      const response: any = await updateProfile({
+        userId,
+        body: payload,
+      });
+
+      if (response?.data?.status) {
+        refetchUser();
+        setToast({
+          ...toast,
+          message: "Profile updated successfully",
+          appearence: true,
+          type: "success",
+        });
+      }
+      if (response?.error) {
+        setToast({
+          ...toast,
+          message: response?.error?.data?.message,
+          appearence: true,
+          type: "error",
+        });
+      }
+    } catch (error) {
+      setToast({
+        message: "Something went wrong",
+        appearence: true,
+        type: "error",
+      });
+    }
+  };
 
   return (
     <>
@@ -416,15 +468,14 @@ const Profile = () => {
                         <Button
                           type="submit"
                           variant="contained"
-                          disabled={isLoading}
+                          disabled={profileLoading}
                           sx={{
                             padding: "5px 30px",
                             textTransform: "capitalize",
                             margin: "20px 0",
                           }}
                         >
-                          {/* {isLoading ? "Apply..." : "Apply"} */}
-                          Update
+                          {profileLoading ? "Update..." : "Update"}
                         </Button>
                       </Box>
                     </Form>
