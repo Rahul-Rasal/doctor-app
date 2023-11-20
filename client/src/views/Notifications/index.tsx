@@ -1,23 +1,30 @@
+// React Imports
 import React from "react";
-import Navbar from "../../components/Navbar";
-import { Heading } from "../../components/Heading";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+// MUI Imports
 import { Box, Tabs, Tab, Typography, Button } from "@mui/material";
+// React Icons
 import { MdMarkChatUnread } from "react-icons/md";
 import { MdMarkChatRead } from "react-icons/md";
+// Hooks
 import useTypedSelector from "../../hooks/useTypedSelector";
+// Redux
 import {
   selectedUserNotifications,
   selectedUserReadNotifications,
   setUser,
 } from "../../redux/auth/authSlice";
-import { useNavigate } from "react-router-dom";
 import {
   useDeleteNotificationsMutation,
   useSeenNotificationsMutation,
 } from "../../redux/api/notificationApiSlice";
-import ToastAlert from "../../components/ToastAlert/ToastAlert";
-import { useDispatch } from "react-redux";
+// Utils
 import { processNotification } from "../../utils";
+// Custom Imports
+import Navbar from "../../components/Navbar";
+import { Heading } from "../../components/Heading";
+import ToastAlert from "../../components/ToastAlert/ToastAlert";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -59,16 +66,15 @@ const Notifications = () => {
   const readNotifications = useTypedSelector(selectedUserReadNotifications);
 
   const [value, setValue] = React.useState(0);
-
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-  };
-
   const [toast, setToast] = React.useState({
     message: "",
     appearence: false,
     type: "",
   });
+
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
+  };
 
   const handleCloseToast = () => {
     setToast({ ...toast, appearence: false });

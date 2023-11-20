@@ -1,5 +1,7 @@
-import { FaExclamationTriangle } from "react-icons/fa";
+// React Imports
 import { Link } from "react-router-dom";
+// React Icons
+import { FaExclamationTriangle } from "react-icons/fa";
 
 const NotFound = () => {
   return (

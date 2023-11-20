@@ -1,12 +1,16 @@
+// MUI Imports
 import { Box } from "@mui/material";
+// Custom Imports
 import { Heading } from "../../components/Heading";
 import Navbar from "../../components/Navbar";
 import MUITable, {
   StyledTableCell,
   StyledTableRow,
 } from "../../components/MUITable";
-import { useGetAllUsersQuery } from "../../redux/api/userSlice";
 import OverlayLoader from "../../components/Spinner/OverlayLoader";
+// Redux
+import { useGetAllUsersQuery } from "../../redux/api/userSlice";
+// Utils
 import { formatDateTime } from "../../utils";
 
 const tableHead = ["Name", "Email", "Date", "Actions"];

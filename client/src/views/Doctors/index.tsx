@@ -1,3 +1,21 @@
+// React Imports
+import { useState } from "react";
+// Redux
+import {
+  useChangeDoctorStatusMutation,
+  useGetAllDoctorsQuery,
+} from "../../redux/api/doctorSlice";
+// MUI Imports
+import { Box, Tooltip } from "@mui/material";
+// Utils
+import { formatDateTime, maskingPhoneNumber } from "../../utils";
+// React Icons
+import { TiTickOutline } from "react-icons/ti";
+import { MdBlock } from "react-icons/md";
+// Custom Imports
+import CustomChip from "../../components/CustomChip";
+import ToastAlert from "../../components/ToastAlert/ToastAlert";
+import Spinner from "../../components/Spinner";
 import { Heading } from "../../components/Heading";
 import MUITable, {
   StyledTableRow,
@@ -5,18 +23,6 @@ import MUITable, {
 } from "../../components/MUITable";
 import Navbar from "../../components/Navbar";
 import OverlayLoader from "../../components/Spinner/OverlayLoader";
-import {
-  useChangeDoctorStatusMutation,
-  useGetAllDoctorsQuery,
-} from "../../redux/api/doctorSlice";
-import { Box, Tooltip } from "@mui/material";
-import { formatDateTime, maskingPhoneNumber } from "../../utils";
-import CustomChip from "../../components/CustomChip";
-import { useState } from "react";
-import { TiTickOutline } from "react-icons/ti";
-import ToastAlert from "../../components/ToastAlert/ToastAlert";
-import Spinner from "../../components/Spinner";
-import { MdBlock } from "react-icons/md";
 
 const tableHead = [
   "Name",

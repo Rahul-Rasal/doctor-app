@@ -1,26 +1,34 @@
+// React Imports
 import { useState } from "react";
-import Navbar from "../../../components/Navbar";
-import { Box, Grid, Divider, Button, TextField } from "@mui/material";
-import { Heading, SubHeading } from "../../../components/Heading";
 import { useParams } from "react-router-dom";
+// Redux
 import { useGetDoctorQuery } from "../../../redux/api/doctorSlice";
-import OverlayLoader from "../../../components/Spinner/OverlayLoader";
+// Utils
 import {
   convertToAMPMFormat,
   onKeyDown,
   thousandSeparatorNumber,
 } from "../../../utils";
+// React Icons
 import { RiLuggageDepositLine } from "react-icons/ri";
 import { MdOutlineExplicit } from "react-icons/md";
 import { CiLocationOn } from "react-icons/ci";
 import { CiMoneyCheck1 } from "react-icons/ci";
 import { IoMdTime } from "react-icons/io";
+// Formik
 import { Form, Formik, FormikProps } from "formik";
+// Yup
 import * as Yup from "yup";
-import DatePicker from "../../../components/DatePicker";
+// MUI Imports
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { Box, Grid, Divider, Button, TextField } from "@mui/material";
+// Custom Imports
+import DatePicker from "../../../components/DatePicker";
+import Navbar from "../../../components/Navbar";
+import { Heading, SubHeading } from "../../../components/Heading";
+import OverlayLoader from "../../../components/Spinner/OverlayLoader";
 
 const AppointmentSchema = Yup.object().shape({
   date: Yup.string().required("Date is required"),

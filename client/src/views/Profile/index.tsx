@@ -1,24 +1,31 @@
+// React Imports
 import { useState, useEffect } from "react";
-import { Box, Button, Grid, Stack, TextField } from "@mui/material";
-import Navbar from "../../components/Navbar";
-import OverlayLoader from "../../components/Spinner/OverlayLoader";
-import { Heading, SubHeading } from "../../components/Heading";
-import ToastAlert from "../../components/ToastAlert/ToastAlert";
-import { selectedUserId, userIsDoctor } from "../../redux/auth/authSlice";
+// Hooks
 import useTypedSelector from "../../hooks/useTypedSelector";
+// Formik
 import { Form, Formik, FormikProps } from "formik";
-import PrimaryInput from "../../components/PrimaryInput/PrimaryInput";
-import PrimaryPhoneInput from "../../components/PhoneInput";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { TimePicker } from "@mui/x-date-pickers/TimePicker";
+// Utils
 import { onKeyDown } from "../../utils";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { applyDoctorSchema } from "../ApplyDoctor/components/validationSchema";
+// Redux
+import { selectedUserId, userIsDoctor } from "../../redux/auth/authSlice";
 import {
   useGetDoctorQuery,
   useUpdateDoctorMutation,
 } from "../../redux/api/doctorSlice";
+// MUI Imports
+import { Box, Button, Grid, Stack, TextField } from "@mui/material";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { TimePicker } from "@mui/x-date-pickers/TimePicker";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+// Custom Imports
+import { applyDoctorSchema } from "../ApplyDoctor/components/validationSchema";
 import UserProfile from "./components/userProfile";
+import Navbar from "../../components/Navbar";
+import OverlayLoader from "../../components/Spinner/OverlayLoader";
+import { Heading, SubHeading } from "../../components/Heading";
+import ToastAlert from "../../components/ToastAlert/ToastAlert";
+import PrimaryInput from "../../components/PrimaryInput/PrimaryInput";
+import PrimaryPhoneInput from "../../components/PhoneInput";
 
 interface ProfileForm {
   firstName: string;

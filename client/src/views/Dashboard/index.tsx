@@ -1,18 +1,23 @@
-import { Box, Grid, Divider } from "@mui/material";
+// React Imports
 import { useNavigate } from "react-router-dom";
-import { Heading } from "../../components/Heading";
-import Navbar from "../../components/Navbar";
-import { useGetApprovedDoctorsQuery } from "../../redux/api/doctorSlice";
-import OverlayLoader from "../../components/Spinner/OverlayLoader";
+// Utils
 import {
   convertToAMPMFormat,
   maskingPhoneNumber,
   thousandSeparatorNumber,
 } from "../../utils";
+// React Icons
 import { IoPhonePortraitOutline } from "react-icons/io5";
 import { CiLocationOn } from "react-icons/ci";
 import { CiMoneyCheck1 } from "react-icons/ci";
 import { IoMdTime } from "react-icons/io";
+// MUI Imports
+import { Box, Grid, Divider } from "@mui/material";
+// Custom Imports
+import { Heading } from "../../components/Heading";
+import Navbar from "../../components/Navbar";
+import { useGetApprovedDoctorsQuery } from "../../redux/api/doctorSlice";
+import OverlayLoader from "../../components/Spinner/OverlayLoader";
 
 const Dashboard = () => {
   const navigate = useNavigate();

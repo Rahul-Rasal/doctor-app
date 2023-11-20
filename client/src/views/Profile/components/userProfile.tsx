@@ -1,12 +1,17 @@
-import { Box, Avatar } from "@mui/material";
-import { useGetUserQuery } from "../../../redux/api/userSlice";
+// Hooks
 import useTypedSelector from "../../../hooks/useTypedSelector";
+// Redux
+import { useGetUserQuery } from "../../../redux/api/userSlice";
 import {
   selectedUserId,
   userIsAdmin,
   userIsDoctor,
 } from "../../../redux/auth/authSlice";
+// Utils
 import { formatDateTime, getNameInitials } from "../../../utils";
+// MUI Imports
+import { Box, Avatar } from "@mui/material";
+// Custom Imports
 import OverlayLoader from "../../../components/Spinner/OverlayLoader";
 import Navbar from "../../../components/Navbar";
 import { Heading } from "../../../components/Heading";

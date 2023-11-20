@@ -1,22 +1,27 @@
 // React Imports
 import { useState } from "react";
-import { Heading, SubHeading } from "../../components/Heading";
-import Navbar from "../../components/Navbar";
 import { useNavigate } from "react-router-dom";
+// MUI Imports
 import { Box, Button, Grid, Stack, TextField } from "@mui/material";
-import PrimaryInput from "../../components/PrimaryInput/PrimaryInput";
-import { onKeyDown } from "../../utils";
-// Formik Imports
-import { Form, Formik, FormikProps } from "formik";
-import { applyDoctorSchema } from "./components/validationSchema";
-import PrimaryPhoneInput from "../../components/PhoneInput";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import ToastAlert from "../../components/ToastAlert/ToastAlert";
-import { useDoctorSignupMutation } from "../../redux/api/doctorSlice";
+// Utils
+import { onKeyDown } from "../../utils";
+// Formik Imports
+import { Form, Formik, FormikProps } from "formik";
+// Hooks
 import useTypedSelector from "../../hooks/useTypedSelector";
+// Redux
 import { selectedUserEmail, selectedUserId } from "../../redux/auth/authSlice";
+import { useDoctorSignupMutation } from "../../redux/api/doctorSlice";
+// Custom Imports
+import ToastAlert from "../../components/ToastAlert/ToastAlert";
+import { applyDoctorSchema } from "./components/validationSchema";
+import PrimaryPhoneInput from "../../components/PhoneInput";
+import { Heading, SubHeading } from "../../components/Heading";
+import Navbar from "../../components/Navbar";
+import PrimaryInput from "../../components/PrimaryInput/PrimaryInput";
 
 interface applyDoctorForm {
   firstName: string;
