@@ -140,3 +140,13 @@ exports.updateDoctor = catchAsync(async (req, res, next) => {
     data: doctor,
   });
 });
+
+exports.getAllApprovedDoctors = catchAsync(async (req, res, next) => {
+  const doctors = await Doctor.find({ status: "approved" });
+
+  res.status(200).send({
+    status: true,
+    message: "All approved doctors fetched successfully",
+    data: doctors,
+  });
+});

@@ -30,7 +30,7 @@ export function formatDateTime(dateString: string) {
   return formattedDateTime;
 }
 
-// Masking Mobile Number +923234910944 =>
+// Masking Mobile Number +923234910944 => 0323 4910955
 export const maskingPhoneNumber = (value: any) => {
   if (value) {
     const phoneNumber = parsePhoneNumber(value);
@@ -55,4 +55,24 @@ export function getNameInitials(name: string) {
   const words = name?.split(" ");
   const initials = words?.map((word) => word.charAt(0).toUpperCase());
   return initials?.join("");
+}
+
+export function convertToAMPMFormat(timestamp: string) {
+  const date = new Date(timestamp);
+
+  let hours = date.getHours();
+  let minutes: any = date.getMinutes();
+  const ampm = hours >= 12 ? "PM" : "AM";
+
+  // Convert hours to 12-hour format
+  hours = hours % 12;
+  hours = hours ? hours : 12; // If hours is 0, set it to 12
+
+  // Add leading zero to minutes if needed
+  minutes = minutes < 10 ? "0" + minutes : minutes;
+
+  // Concatenate hours, minutes, and AM/PM
+  const timeString = `${hours}:${minutes} ${ampm}`;
+
+  return timeString;
 }

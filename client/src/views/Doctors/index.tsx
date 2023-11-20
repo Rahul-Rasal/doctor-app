@@ -115,50 +115,50 @@ const Doctors = () => {
                       }
                     />
                   </StyledTableCell>
-                  {row.status === "pending" ? (
-                    <Tooltip title="Approve Doctor" placement="bottom">
-                      <StyledTableCell
-                        sx={{ cursor: "pointer" }}
-                        onClick={() => {
-                          doctorHandler(row, "approved");
-                          setDoctorId(row._id);
-                        }}
-                      >
-                        {doctorId === row._id && doctorLoading ? (
-                          <Spinner size={20} />
-                        ) : (
-                          <>
-                            <TiTickOutline style={{ fontSize: "20px" }} />
-                            Approve
-                          </>
-                        )}
-                      </StyledTableCell>
-                    </Tooltip>
-                  ) : (
-                    <Tooltip title="Banned User" placement="bottom">
-                      <StyledTableCell
-                        sx={{
-                          cursor: "pointer",
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "3px",
-                        }}
-                        onClick={() => {
-                          doctorHandler(row, "blocked");
-                          setDoctorId(row._id);
-                        }}
-                      >
-                        {doctorId === row._id && doctorLoading ? (
-                          <Spinner size={20} />
-                        ) : (
-                          <>
-                            <MdBlock />
-                            Block
-                          </>
-                        )}
-                      </StyledTableCell>
-                    </Tooltip>
-                  )}
+                  <Tooltip
+                    title={
+                      row.status === "pending"
+                        ? "Approve Doctor"
+                        : "Banned User"
+                    }
+                    placement="bottom"
+                  >
+                    <StyledTableCell
+                      sx={{ cursor: "pointer" }}
+                      onClick={() => {
+                        doctorHandler(
+                          row,
+                          row.status === "pending" ? "approved" : "blocked"
+                        );
+                        setDoctorId(row._id);
+                      }}
+                    >
+                      {doctorId === row._id && doctorLoading ? (
+                        <Spinner size={20} />
+                      ) : (
+                        <>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "3px",
+                            }}
+                          >
+                            <Box>
+                              {row.status === "pending" ? (
+                                <TiTickOutline style={{ fontSize: "20px" }} />
+                              ) : (
+                                <MdBlock />
+                              )}
+                            </Box>
+                            <Box>
+                              {row.status === "pending" ? "Approve" : "Block"}
+                            </Box>
+                          </Box>
+                        </>
+                      )}
+                    </StyledTableCell>
+                  </Tooltip>
                 </StyledTableRow>
               ))
             ) : (

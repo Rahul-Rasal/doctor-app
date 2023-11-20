@@ -9,6 +9,7 @@ import {
 import { formatDateTime, getNameInitials } from "../../../utils";
 import OverlayLoader from "../../../components/Spinner/OverlayLoader";
 import Navbar from "../../../components/Navbar";
+import { Heading } from "../../../components/Heading";
 
 const UserProfile = () => {
   const userId = useTypedSelector(selectedUserId);
@@ -21,8 +22,9 @@ const UserProfile = () => {
 
   return (
     <>
+      {isLoading && <OverlayLoader />}
       <Navbar>
-        {isLoading && <OverlayLoader />}
+        <Heading>Profile Details</Heading>
         <Box
           sx={{
             margin: "20px 0",

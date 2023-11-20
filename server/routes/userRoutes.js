@@ -18,6 +18,11 @@ router.post(
   doctorController.doctorSignup
 );
 router.get("/doctors", doctorController.getAllDoctors);
+router.get(
+  "/approved-doctors",
+  authController.protect,
+  doctorController.getAllApprovedDoctors
+);
 router.get("/doctors/:id", authController.protect, doctorController.getDoctor);
 router.put(
   "/doctors/:id",

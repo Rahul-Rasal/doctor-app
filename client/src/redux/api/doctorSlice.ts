@@ -45,6 +45,13 @@ export const doctorApiSlice = apiSlice.injectEndpoints({
       }),
       providesTags: ["Doctors"],
     }),
+    getApprovedDoctors: builder.query({
+      query: () => ({
+        url: "/users/approved-doctors",
+        method: "GET",
+      }),
+      providesTags: ["Doctors"],
+    }),
   }),
 });
 
@@ -54,4 +61,5 @@ export const {
   useChangeDoctorStatusMutation,
   useUpdateDoctorMutation,
   useGetDoctorQuery,
+  useGetApprovedDoctorsQuery,
 } = doctorApiSlice;
