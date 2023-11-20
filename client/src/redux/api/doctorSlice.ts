@@ -38,6 +38,13 @@ export const doctorApiSlice = apiSlice.injectEndpoints({
       },
       invalidatesTags: ["Doctors"],
     }),
+    getDoctor: builder.query({
+      query: (data) => ({
+        url: `/users/doctors/${data.userId}`,
+        method: "GET",
+      }),
+      providesTags: ["Doctors"],
+    }),
   }),
 });
 
@@ -46,4 +53,5 @@ export const {
   useGetAllDoctorsQuery,
   useChangeDoctorStatusMutation,
   useUpdateDoctorMutation,
+  useGetDoctorQuery,
 } = doctorApiSlice;
