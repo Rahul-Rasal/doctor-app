@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Box, Button, Grid, Stack } from "@mui/material";
+import { Box, Button, Grid, Stack, TextField } from "@mui/material";
 import Navbar from "../../components/Navbar";
 import OverlayLoader from "../../components/Spinner/OverlayLoader";
 import { Heading, SubHeading } from "../../components/Heading";
@@ -411,6 +411,9 @@ const Profile = () => {
                                   onChange={(value) => {
                                     setFieldValue("fromTime", value);
                                   }}
+                                  renderInput={(params) => (
+                                    <TextField {...params} />
+                                  )}
                                 />
                               </Stack>
                               {errors.fromTime && touched.fromTime && (
@@ -440,6 +443,9 @@ const Profile = () => {
                                   onChange={(value) => {
                                     setFieldValue("toTime", value);
                                   }}
+                                  renderInput={(params) => (
+                                    <TextField {...params} />
+                                  )}
                                 />
                               </Stack>
                               {errors.toTime && touched.toTime && (
