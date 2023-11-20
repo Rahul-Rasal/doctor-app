@@ -76,3 +76,30 @@ export function convertToAMPMFormat(timestamp: string) {
 
   return timeString;
 }
+
+// 1200 => 1,200
+export function thousandSeparatorNumber(number: number) {
+  // Check if the input is a valid number
+  if (typeof number !== "number" || isNaN(number)) {
+    return "Invalid number";
+  }
+
+  // Convert the number to a string
+  const numberString = number.toString();
+
+  // Split the string into integer and decimal parts
+  const [integerPart, decimalPart] = numberString.split(".");
+
+  // Add thousand separators to the integer part
+  const formattedIntegerPart = integerPart.replace(
+    /\B(?=(\d{3})+(?!\d))/g,
+    ","
+  );
+
+  // Combine the formatted integer part and the decimal part (if exists)
+  const formattedNumber = decimalPart
+    ? `${formattedIntegerPart}.${decimalPart}`
+    : formattedIntegerPart;
+
+  return formattedNumber;
+}

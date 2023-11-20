@@ -17,6 +17,7 @@ import { useVerifyUserQuery } from "./redux/api/userSlice";
 import { useDispatch } from "react-redux";
 import { setUser } from "./redux/auth/authSlice";
 import OverlayLoader from "./components/Spinner/OverlayLoader";
+import BookAppointment from "./views/Appointments/components/BookAppointment";
 
 function App() {
   const dispatch = useDispatch();
@@ -77,6 +78,14 @@ function App() {
             element={
               <ProtectedRoutes>
                 <Appointments />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/book-appointments/:userId"
+            element={
+              <ProtectedRoutes>
+                <BookAppointment />
               </ProtectedRoutes>
             }
           />
