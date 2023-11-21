@@ -54,6 +54,7 @@ const BookAppointment = () => {
   // Doctor Id  ===> userId
   const { userId } = useParams();
   const loginUserId = useTypedSelector(selectedUserId);
+  const [isAvailable, setIsAvailable] = useState(false);
   const [appointment, setAppointment] = useState("");
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [formValues, setFormValues] = useState<AppointmentForm>({
@@ -98,6 +99,7 @@ const BookAppointment = () => {
       const doctorAvailability: any = await checkBookingAvailability(payload);
 
       if (doctorAvailability?.data?.status) {
+        setIsAvailable(true);
         setToast({
           ...toast,
           message: doctorAvailability?.data?.message,
@@ -139,6 +141,7 @@ const BookAppointment = () => {
       try {
         const userAppointment: any = await bookAppointment(payload);
         if (userAppointment?.data?.status) {
+          setIsAvailable(false);
           setToast({
             ...toast,
             message: userAppointment?.data?.message,
@@ -237,6 +240,7 @@ const BookAppointment = () => {
                               value={values.date}
                               handleChange={(value: any) => {
                                 setFieldValue("date", value);
+                                setIsAvailable(false);
                               }}
                             />
                             {errors.date && touched.date && (
@@ -261,6 +265,7 @@ const BookAppointment = () => {
                                 value={values.time}
                                 onChange={(value) => {
                                   setFieldValue("time", value);
+                                  setIsAvailable(false);
                                 }}
                                 renderInput={(params) => (
                                   <TextField
@@ -310,24 +315,26 @@ const BookAppointment = () => {
                             </Button>
                           </Box>
 
-                          <Button
-                            type="submit"
-                            variant="outlined"
-                            fullWidth
-                            disabled={appointmentLoading}
-                            sx={{
-                              padding: "5px 30px",
-                              textTransform: "capitalize",
-                              margin: "0px 0 20px 0",
-                            }}
-                            onClick={() => {
-                              setAppointment("bookAppointment");
-                            }}
-                          >
-                            {appointmentLoading
-                              ? "Booking..."
-                              : "Book Appointment"}
-                          </Button>
+                          {isAvailable && (
+                            <Button
+                              type="submit"
+                              variant="outlined"
+                              fullWidth
+                              disabled={appointmentLoading}
+                              sx={{
+                                padding: "5px 30px",
+                                textTransform: "capitalize",
+                                margin: "0px 0 20px 0",
+                              }}
+                              onClick={() => {
+                                setAppointment("bookAppointment");
+                              }}
+                            >
+                              {appointmentLoading
+                                ? "Booking..."
+                                : "Book Appointment"}
+                            </Button>
+                          )}
                         </Form>
                       );
                     }}
