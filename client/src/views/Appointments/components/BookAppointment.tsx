@@ -2,7 +2,10 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 // Redux
-import { useGetDoctorQuery } from "../../../redux/api/doctorSlice";
+import {
+  useCheckBookingAvailabilityMutation,
+  useGetDoctorQuery,
+} from "../../../redux/api/doctorSlice";
 // Utils
 import {
   convertToAMPMFormat,
@@ -36,6 +39,7 @@ import {
   useGetUserQuery,
 } from "../../../redux/api/userSlice";
 import ToastAlert from "../../../components/ToastAlert/ToastAlert";
+import dayjs from "dayjs";
 
 const AppointmentSchema = Yup.object().shape({
   date: Yup.string().required("Date is required"),
@@ -82,20 +86,65 @@ const BookAppointment = () => {
   const [bookAppointment, { isLoading: appointmentLoading }] =
     useBookAppointmentMutation();
 
+  const [checkBookingAvailability, { isLoading: checkBookingLoading }] =
+    useCheckBookingAvailabilityMutation();
+
   const appointmentHandler = async (appointmentData: AppointmentForm) => {
-    const payload = {
-      doctorId: userId,
-      userId: loginUserId,
-      doctorInfo: data?.data,
-      userInfo: logedInUserData?.data,
-      date: appointmentData.date,
-      time: appointmentData.time,
-    };
     if (appointment === "checkAvailability") {
-      alert("Check Availability");
+      const apptDate: any = dayjs(appointmentData.date).format("YYYY-MM-DD");
+      const apptTime: any = dayjs(appointmentData.time).format(
+        "YYYY-MM-DD HH:mm:ss"
+      );
+      const payload = {
+        doctorId: userId,
+        date: apptDate,
+        time: apptTime,
+      };
+      const doctorAvailability: any = await checkBookingAvailability(payload);
+
+      if (doctorAvailability?.data?.status) {
+        setToast({
+          ...toast,
+          message: doctorAvailability?.data?.message,
+          appearence: true,
+          type: "success",
+        });
+      }
+      if (doctorAvailability?.error) {
+        setToast({
+          ...toast,
+          message: doctorAvailability?.error?.data?.message,
+          appearence: true,
+          type: "error",
+        });
+      }
+
+      try {
+      } catch (error) {
+        console.error("Check Booking Availability Error:", error);
+        setToast({
+          ...toast,
+          message: "Something went wrong",
+          appearence: true,
+          type: "error",
+        });
+      }
     }
 
     if (appointment === "bookAppointment") {
+      const apptDate: any = dayjs(appointmentData.date).format("YYYY-MM-DD");
+      const apptTime: any = dayjs(appointmentData.time).format(
+        "YYYY-MM-DD HH:mm:ss"
+      );
+      const payload = {
+        doctorId: userId,
+        userId: loginUserId,
+        doctorInfo: data?.data,
+        userInfo: logedInUserData?.data,
+        date: apptDate,
+        time: apptTime,
+      };
+
       try {
         const userAppointment: any = await bookAppointment(payload);
         if (userAppointment?.data?.status) {
@@ -254,7 +303,7 @@ const BookAppointment = () => {
                               variant="outlined"
                               color="success"
                               fullWidth
-                              //   disabled={profileLoading}
+                              disabled={checkBookingLoading}
                               sx={{
                                 padding: "5px 30px",
                                 textTransform: "capitalize",
@@ -264,8 +313,9 @@ const BookAppointment = () => {
                                 setAppointment("checkAvailability");
                               }}
                             >
-                              {/* {profileLoading ? "Update..." : "Update"} */}
-                              Check Availability
+                              {checkBookingLoading
+                                ? "Checking Availability..."
+                                : "Check Availability"}
                             </Button>
                           </Box>
 

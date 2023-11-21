@@ -2,6 +2,8 @@ const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 const Doctor = require("../models/doctorModel");
 const User = require("../models/userModel");
+const Appointment = require("../models/appointmentModel");
+const moment = require("moment");
 
 exports.doctorSignup = catchAsync(async (req, res, next) => {
   // find doctor if already applied
@@ -149,4 +151,29 @@ exports.getAllApprovedDoctors = catchAsync(async (req, res, next) => {
     message: "All approved doctors fetched successfully",
     data: doctors,
   });
+});
+
+exports.checkBookingAvailability = catchAsync(async (req, res, next) => {
+  console.log("req", req.body);
+  // 30 Minutes appointment time
+  const fromTime = new Date(req.body.time);
+  const toTime = new Date(fromTime);
+  toTime.setMinutes(toTime.getMinutes() + 30);
+  const doctorId = req.body.doctorId;
+
+  const appointments = await Appointment.find({
+    doctorId,
+    date: req.body.date,
+    time: { $gte: fromTime, $lte: toTime },
+  });
+
+  // Check appointments length
+  if (appointments.length > 0) {
+    return next(new AppError("Appointment not available", 400));
+  } else {
+    res.status(200).send({
+      status: true,
+      message: "Appointment available",
+    });
+  }
 });

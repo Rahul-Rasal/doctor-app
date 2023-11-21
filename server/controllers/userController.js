@@ -38,6 +38,7 @@ exports.getUser = catchAsync(async (req, res, next) => {
 });
 
 exports.bookAppointment = catchAsync(async (req, res, next) => {
+  console.log("backend", req.body.time);
   req.body.status = "pending";
   const newAppointment = new Appointment(req.body);
   await newAppointment.save();

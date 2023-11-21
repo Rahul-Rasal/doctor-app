@@ -52,6 +52,16 @@ export const doctorApiSlice = apiSlice.injectEndpoints({
       }),
       providesTags: ["Doctors"],
     }),
+    checkBookingAvailability: builder.mutation({
+      query: (data) => {
+        return {
+          url: "users/check-booking-availability",
+          method: "POST",
+          body: data,
+        };
+      },
+      invalidatesTags: ["Doctors"],
+    }),
   }),
 });
 
@@ -62,4 +72,5 @@ export const {
   useUpdateDoctorMutation,
   useGetDoctorQuery,
   useGetApprovedDoctorsQuery,
+  useCheckBookingAvailabilityMutation,
 } = doctorApiSlice;

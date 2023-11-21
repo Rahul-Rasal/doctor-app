@@ -56,5 +56,10 @@ router.post(
   authController.protect,
   userController.bookAppointment
 );
+router.post(
+  "/check-booking-availability",
+  authController.protect,
+  doctorController.checkBookingAvailability
+);
 
 module.exports = router;
