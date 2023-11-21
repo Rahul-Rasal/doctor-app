@@ -20,8 +20,19 @@ export const userApiSlice = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    bookAppointment: builder.mutation({
+      query: (data) => ({
+        url: "/users/book-appointment",
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
-export const { useVerifyUserQuery, useGetAllUsersQuery, useGetUserQuery } =
-  userApiSlice;
+export const {
+  useVerifyUserQuery,
+  useGetAllUsersQuery,
+  useGetUserQuery,
+  useBookAppointmentMutation,
+} = userApiSlice;

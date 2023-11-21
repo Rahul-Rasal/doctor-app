@@ -51,5 +51,10 @@ router.post(
 router.get("/verify-user", authController.protect, userController.verifyUser);
 router.get("/", userController.getAllUsers);
 router.get("/:id", authController.protect, userController.getUser);
+router.post(
+  "/book-appointment",
+  authController.protect,
+  userController.bookAppointment
+);
 
 module.exports = router;

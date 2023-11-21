@@ -45,6 +45,8 @@ export function processNotification(notification: string) {
       return "New Doctor 🩺 Request";
     case "new-doctor-request-changed":
       return "🎉 Your requested successfully accepted";
+    case "new-appointment-request":
+      return "New 💉 Appointment Request";
     default:
       return "Unknown Notification";
   }

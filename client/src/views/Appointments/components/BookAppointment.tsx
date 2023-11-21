@@ -29,6 +29,13 @@ import DatePicker from "../../../components/DatePicker";
 import Navbar from "../../../components/Navbar";
 import { Heading, SubHeading } from "../../../components/Heading";
 import OverlayLoader from "../../../components/Spinner/OverlayLoader";
+import useTypedSelector from "../../../hooks/useTypedSelector";
+import { selectedUserId } from "../../../redux/auth/authSlice";
+import {
+  useBookAppointmentMutation,
+  useGetUserQuery,
+} from "../../../redux/api/userSlice";
+import ToastAlert from "../../../components/ToastAlert/ToastAlert";
 
 const AppointmentSchema = Yup.object().shape({
   date: Yup.string().required("Date is required"),
@@ -41,24 +48,87 @@ interface AppointmentForm {
 }
 
 const BookAppointment = () => {
+  // Doctor Id  ===> userId
   const { userId } = useParams();
+  const loginUserId = useTypedSelector(selectedUserId);
+  const [appointment, setAppointment] = useState("");
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [formValues, setFormValues] = useState<AppointmentForm>({
     date: null,
     time: null,
   });
 
+  const [toast, setToast] = useState({
+    message: "",
+    appearence: false,
+    type: "",
+  });
+
+  const handleCloseToast = () => {
+    setToast({ ...toast, appearence: false });
+  };
+
+  // Doctor Get API
   const { data, isLoading } = useGetDoctorQuery({
     userId,
   });
 
-  const appointmentHandler = async (data: AppointmentForm) => {
-    console.log("data", data);
+  // User Get API
+  const { data: logedInUserData, isLoading: logedInUserLoading } =
+    useGetUserQuery({
+      userId: loginUserId,
+    });
+
+  const [bookAppointment, { isLoading: appointmentLoading }] =
+    useBookAppointmentMutation();
+
+  const appointmentHandler = async (appointmentData: AppointmentForm) => {
+    const payload = {
+      doctorId: userId,
+      userId: loginUserId,
+      doctorInfo: data?.data,
+      userInfo: logedInUserData?.data,
+      date: appointmentData.date,
+      time: appointmentData.time,
+    };
+    if (appointment === "checkAvailability") {
+      alert("Check Availability");
+    }
+
+    if (appointment === "bookAppointment") {
+      try {
+        const userAppointment: any = await bookAppointment(payload);
+        if (userAppointment?.data?.status) {
+          setToast({
+            ...toast,
+            message: userAppointment?.data?.message,
+            appearence: true,
+            type: "success",
+          });
+        }
+        if (userAppointment?.error) {
+          setToast({
+            ...toast,
+            message: userAppointment?.error?.data?.message,
+            appearence: true,
+            type: "error",
+          });
+        }
+      } catch (error) {
+        console.error("Book Appointment Error:", error);
+        setToast({
+          ...toast,
+          message: "Something went wrong",
+          appearence: true,
+          type: "error",
+        });
+      }
+    }
   };
 
   return (
     <>
-      {isLoading && <OverlayLoader />}
+      {(isLoading || logedInUserLoading) && <OverlayLoader />}
       <Navbar>
         <Heading>Book Appointments</Heading>
         <Box>
@@ -182,6 +252,7 @@ const BookAppointment = () => {
                             <Button
                               type="submit"
                               variant="outlined"
+                              color="success"
                               fullWidth
                               //   disabled={profileLoading}
                               sx={{
@@ -189,11 +260,33 @@ const BookAppointment = () => {
                                 textTransform: "capitalize",
                                 margin: "20px 0",
                               }}
+                              onClick={() => {
+                                setAppointment("checkAvailability");
+                              }}
                             >
                               {/* {profileLoading ? "Update..." : "Update"} */}
                               Check Availability
                             </Button>
                           </Box>
+
+                          <Button
+                            type="submit"
+                            variant="outlined"
+                            fullWidth
+                            disabled={appointmentLoading}
+                            sx={{
+                              padding: "5px 30px",
+                              textTransform: "capitalize",
+                              margin: "0px 0 20px 0",
+                            }}
+                            onClick={() => {
+                              setAppointment("bookAppointment");
+                            }}
+                          >
+                            {appointmentLoading
+                              ? "Booking..."
+                              : "Book Appointment"}
+                          </Button>
                         </Form>
                       );
                     }}
@@ -307,6 +400,12 @@ const BookAppointment = () => {
           </Grid>
         </Box>
       </Navbar>
+      <ToastAlert
+        appearence={toast.appearence}
+        type={toast.type}
+        message={toast.message}
+        handleClose={handleCloseToast}
+      />
     </>
   );
 };
