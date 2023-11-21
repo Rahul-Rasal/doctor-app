@@ -294,6 +294,7 @@ const Login = () => {
                     alignItems: "center",
                     justifyContent: "center",
                     gap: "5px",
+                    fontSize: "17px",
                   }}
                 >
                   New here?
