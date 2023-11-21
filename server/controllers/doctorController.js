@@ -154,16 +154,18 @@ exports.getAllApprovedDoctors = catchAsync(async (req, res, next) => {
 });
 
 exports.checkBookingAvailability = catchAsync(async (req, res, next) => {
-  console.log("req", req.body);
-  // 30 Minutes appointment time
-  const fromTime = new Date(req.body.time);
-  const toTime = new Date(fromTime);
-  toTime.setMinutes(toTime.getMinutes() + 30);
+  const date = moment(req.body.date, "DD-MM-YYYY").toISOString();
+  const fromTime = moment(req.body.time, "HH:mm")
+    .subtract(30, "minutes")
+    .toISOString();
+  const toTime = moment(req.body.time, "HH:mm")
+    .add(15, "minutes")
+    .toISOString();
   const doctorId = req.body.doctorId;
 
   const appointments = await Appointment.find({
     doctorId,
-    date: req.body.date,
+    date,
     time: { $gte: fromTime, $lte: toTime },
   });
 

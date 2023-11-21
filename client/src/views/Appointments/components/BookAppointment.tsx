@@ -39,7 +39,6 @@ import {
   useGetUserQuery,
 } from "../../../redux/api/userSlice";
 import ToastAlert from "../../../components/ToastAlert/ToastAlert";
-import dayjs from "dayjs";
 
 const AppointmentSchema = Yup.object().shape({
   date: Yup.string().required("Date is required"),
@@ -91,14 +90,10 @@ const BookAppointment = () => {
 
   const appointmentHandler = async (appointmentData: AppointmentForm) => {
     if (appointment === "checkAvailability") {
-      const apptDate: any = dayjs(appointmentData.date).format("YYYY-MM-DD");
-      const apptTime: any = dayjs(appointmentData.time).format(
-        "YYYY-MM-DD HH:mm:ss"
-      );
       const payload = {
         doctorId: userId,
-        date: apptDate,
-        time: apptTime,
+        date: appointmentData.date,
+        time: appointmentData.time,
       };
       const doctorAvailability: any = await checkBookingAvailability(payload);
 
@@ -132,17 +127,13 @@ const BookAppointment = () => {
     }
 
     if (appointment === "bookAppointment") {
-      const apptDate: any = dayjs(appointmentData.date).format("YYYY-MM-DD");
-      const apptTime: any = dayjs(appointmentData.time).format(
-        "YYYY-MM-DD HH:mm:ss"
-      );
       const payload = {
         doctorId: userId,
         userId: loginUserId,
         doctorInfo: data?.data,
         userInfo: logedInUserData?.data,
-        date: apptDate,
-        time: apptTime,
+        date: appointmentData.date,
+        time: appointmentData.time,
       };
 
       try {

@@ -1,6 +1,7 @@
 const catchAsync = require("../utils/catchAsync");
 const User = require("../models/userModel");
 const Appointment = require("../models/appointmentModel");
+const moment = require("moment");
 
 exports.verifyUser = catchAsync(async (req, res, next) => {
   res.status(200).json({
@@ -38,10 +39,13 @@ exports.getUser = catchAsync(async (req, res, next) => {
 });
 
 exports.bookAppointment = catchAsync(async (req, res, next) => {
-  console.log("backend", req.body.time);
   req.body.status = "pending";
+  req.body.date = moment(req.body.date, "DD-MM-YYYY").toISOString();
+  req.body.time = moment(req.body.time, "HH:mm").toISOString();
+
   const newAppointment = new Appointment(req.body);
   await newAppointment.save();
+
   // Find doctor and send notification
   const user = await User.findById(req.body.doctorInfo.userId);
   user.unseenNotifications.push({
