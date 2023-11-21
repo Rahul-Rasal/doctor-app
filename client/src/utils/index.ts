@@ -20,7 +20,6 @@ export function formatDateTime(dateString: string) {
     year: "numeric",
     hour: "numeric",
     minute: "numeric",
-    second: "numeric",
     hour12: true,
   };
 
@@ -29,35 +28,32 @@ export function formatDateTime(dateString: string) {
 
   return formattedDateTime;
 }
-// 2023-11-21T19:00:00.000Z => 20-11-2023
-export function formatDate(inputDateString: string) {
-  const inputDate = new Date(inputDateString);
+// 2023-11-21T19:00:00.000Z => 11/22/2023
+export function formatDate(dateString: string) {
+  const options: Intl.DateTimeFormatOptions = {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  };
 
-  // Extract day, month, and year components
-  const day = inputDate.getUTCDate().toString().padStart(2, "0");
-  const month = (inputDate.getUTCMonth() + 1).toString().padStart(2, "0"); // Month is zero-indexed
-  const year = inputDate.getUTCFullYear();
+  const date = new Date(dateString);
+  const formattedDateTime = date.toLocaleString("en-US", options);
 
-  // Create the formatted date string
-  const formattedDate = `${day}-${month}-${year}`;
-
-  return formattedDate;
+  return formattedDateTime;
 }
 
 // "2023-11-21T11:00:00.644Z" ===> 4:00:00 PM
-export function convertTo12HourFormat(inputDateString: string) {
-  const date = new Date(inputDateString);
-
+export function formatTime(inputDateString: string) {
   const options: Intl.DateTimeFormatOptions = {
     hour: "numeric",
     minute: "numeric",
-    // second: "numeric",
     hour12: true,
   };
 
-  const formattedTime = new Intl.DateTimeFormat("en-US", options).format(date);
+  const date = new Date(inputDateString);
+  const formattedDateTime = date.toLocaleString("en-US", options);
 
-  return formattedTime;
+  return formattedDateTime;
 }
 
 // Masking Mobile Number +923234910944 => 0323 4910955

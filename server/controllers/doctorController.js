@@ -154,7 +154,7 @@ exports.getAllApprovedDoctors = catchAsync(async (req, res, next) => {
 });
 
 exports.checkBookingAvailability = catchAsync(async (req, res, next) => {
-  const date = moment(req.body.date, "DD-MM-YYYY").toISOString();
+  const date = moment(req.body.date).toISOString();
   const fromTime = moment(req.body.time, "HH:mm")
     .subtract(30, "minutes")
     .toISOString();

@@ -6,11 +6,7 @@ import MUITable, {
 import Navbar from "../../components/Navbar";
 import OverlayLoader from "../../components/Spinner/OverlayLoader";
 import useTypedSelector from "../../hooks/useTypedSelector";
-import {
-  convertTo12HourFormat,
-  formatDate,
-  maskingPhoneNumber,
-} from "../../utils";
+import { formatDate, formatTime, maskingPhoneNumber } from "../../utils";
 import { useUserAppointmentsQuery } from "../../redux/api/userSlice";
 import { selectedUserId } from "../../redux/auth/authSlice";
 import { Box } from "@mui/material";
@@ -47,9 +43,9 @@ const Appointments = () => {
                   <StyledTableCell>
                     {maskingPhoneNumber(row?.doctorInfo?.phoneNumber)}
                   </StyledTableCell>
-                  <StyledTableCell>{`${formatDate(
-                    row?.date
-                  )} ${convertTo12HourFormat(row?.time)}`}</StyledTableCell>
+                  <StyledTableCell>{`${formatDate(row?.date)} ${formatTime(
+                    row?.time
+                  )}`}</StyledTableCell>
                   <StyledTableCell>
                     <CustomChip
                       label={
