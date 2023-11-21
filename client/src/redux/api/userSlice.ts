@@ -26,6 +26,14 @@ export const userApiSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["Doctors"],
+    }),
+    userAppointments: builder.query({
+      query: (data) => ({
+        url: `/users/user-appointments/${data.userId}`,
+        method: "GET",
+      }),
+      providesTags: ["Doctors"],
     }),
   }),
 });
@@ -35,4 +43,5 @@ export const {
   useGetAllUsersQuery,
   useGetUserQuery,
   useBookAppointmentMutation,
+  useUserAppointmentsQuery,
 } = userApiSlice;

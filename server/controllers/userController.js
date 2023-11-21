@@ -63,3 +63,15 @@ exports.bookAppointment = catchAsync(async (req, res, next) => {
     message: "Appointment booked successfully.",
   });
 });
+
+exports.userAppointments = catchAsync(async (req, res, next) => {
+  const appointments = await Appointment.find({
+    userId: req.params.id,
+  });
+
+  res.status(200).json({
+    status: "success",
+    message: "Appointments fetched successfully.",
+    data: appointments,
+  });
+});

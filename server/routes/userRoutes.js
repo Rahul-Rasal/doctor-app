@@ -62,4 +62,10 @@ router.post(
   doctorController.checkBookingAvailability
 );
 
+router.get(
+  "/user-appointments/:id",
+  authController.protect,
+  userController.userAppointments
+);
+
 module.exports = router;

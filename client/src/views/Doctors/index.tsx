@@ -23,6 +23,7 @@ import MUITable, {
 } from "../../components/MUITable";
 import Navbar from "../../components/Navbar";
 import OverlayLoader from "../../components/Spinner/OverlayLoader";
+import { IoBookOutline } from "react-icons/io5";
 
 const tableHead = [
   "Name",
@@ -168,9 +169,20 @@ const Doctors = () => {
                 </StyledTableRow>
               ))
             ) : (
-              <StyledTableRow>
+              <StyledTableRow sx={{ height: "100px" }}>
                 <StyledTableCell colSpan={tableHead?.length} align="center">
-                  {data?.data?.length === 0 ? "No records found" : ""}
+                  <Box
+                    sx={{
+                      fontSize: "18px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: 1,
+                    }}
+                  >
+                    <IoBookOutline />
+                    {data?.data?.length === 0 ? "No records found" : ""}
+                  </Box>{" "}
                 </StyledTableCell>
               </StyledTableRow>
             )}

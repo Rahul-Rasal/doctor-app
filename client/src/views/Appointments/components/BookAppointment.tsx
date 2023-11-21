@@ -1,6 +1,6 @@
 // React Imports
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 // Redux
 import {
   useCheckBookingAvailabilityMutation,
@@ -51,6 +51,7 @@ interface AppointmentForm {
 }
 
 const BookAppointment = () => {
+  const navigate = useNavigate();
   // Doctor Id  ===> userId
   const { userId } = useParams();
   const loginUserId = useTypedSelector(selectedUserId);
@@ -148,6 +149,9 @@ const BookAppointment = () => {
             appearence: true,
             type: "success",
           });
+          setTimeout(() => {
+            navigate("/appointments");
+          }, 1500);
         }
         if (userAppointment?.error) {
           setToast({

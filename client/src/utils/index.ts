@@ -51,7 +51,7 @@ export function convertTo12HourFormat(inputDateString: string) {
   const options: Intl.DateTimeFormatOptions = {
     hour: "numeric",
     minute: "numeric",
-    second: "numeric",
+    // second: "numeric",
     hour12: true,
   };
 
