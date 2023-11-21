@@ -31,7 +31,18 @@ const Dashboard = () => {
         <Box>
           <Grid container rowSpacing={2} columnSpacing={4}>
             {data?.data?.length === 0 ? (
-              ""
+              <Box
+                sx={{
+                  margin: "30px 0 20px 0",
+                  background: "#fff",
+                  borderRadius: "6px",
+                  padding: "15px 20px",
+                  boxShadow: "rgba(0, 0, 0, 0.1) 0px 0px 10px",
+                  cursor: "pointer",
+                }}
+              >
+                No Doctors Available in this Clinic
+              </Box>
             ) : (
               <>
                 {data?.data?.map((row: any) => {

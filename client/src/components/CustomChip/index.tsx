@@ -25,6 +25,7 @@ const CustomChip = ({ label }: Props) => {
         bgColor = convertColorToRgb(color);
         break;
       case "Admin":
+      case "Owner":
         color = "#f5a623";
         bgColor = convertColorToRgb(color);
         break;
@@ -33,6 +34,7 @@ const CustomChip = ({ label }: Props) => {
         bgColor = convertColorToRgb(color);
         break;
       case "Approved":
+      case "User":
         color = "#13B981";
         bgColor = "#E7F8F2";
         break;
@@ -48,7 +50,7 @@ const CustomChip = ({ label }: Props) => {
   };
 
   const chipStyle = {
-    width: "fit-content",
+    maxWidth: "110px",
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-start",

@@ -18,6 +18,8 @@ exports.getAllUsers = catchAsync(async (req, res, next) => {
       name: user.name,
       email: user.email,
       createdAt: user.createdAt,
+      isAdmin: user.isAdmin,
+      isDoctor: user.isDoctor,
     };
   });
 

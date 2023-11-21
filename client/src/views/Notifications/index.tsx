@@ -1,7 +1,6 @@
 // React Imports
 import React from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 // MUI Imports
 import { Box, Tabs, Tab, Typography, Button } from "@mui/material";
 // React Icons
@@ -60,7 +59,6 @@ function a11yProps(index: number) {
 }
 
 const Notifications = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const userNotifications = useTypedSelector(selectedUserNotifications);
   const readNotifications = useTypedSelector(selectedUserReadNotifications);
@@ -234,12 +232,8 @@ const Notifications = () => {
                         padding: "14px 24px",
                         borderRadius: "12px",
                         marginBottom: "20px",
-                        cursor: "pointer",
                       }}
                       key={notification?.data?.doctorId}
-                      onClick={() => {
-                        navigate(notification?.onClickPath);
-                      }}
                     >
                       <Box
                         sx={{ display: "flex", gap: 2, marginBottom: "5px" }}
@@ -284,12 +278,8 @@ const Notifications = () => {
                         padding: "14px 24px",
                         borderRadius: "12px",
                         marginBottom: "20px",
-                        cursor: "pointer",
                       }}
                       key={notification?.data?.doctorId}
-                      onClick={() => {
-                        navigate(notification?.onClickPath);
-                      }}
                     >
                       <Box
                         sx={{ display: "flex", gap: 2, marginBottom: "5px" }}
