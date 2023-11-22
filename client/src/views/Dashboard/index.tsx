@@ -28,9 +28,11 @@ const Dashboard = () => {
       {isLoading && <OverlayLoader />}
       <Navbar>
         <Heading>Available Doctors</Heading>
-        <Heading sx={{ margin: "10px 0", fontSize: "14px", fontWeight: 500 }}>
-          Select Doctor to add Appointments
-        </Heading>
+        {data?.data?.length !== 0 && (
+          <Heading sx={{ margin: "10px 0", fontSize: "14px", fontWeight: 500 }}>
+            Select Doctor to add Appointments
+          </Heading>
+        )}
 
         <Box>
           <Grid container rowSpacing={2} columnSpacing={4}>

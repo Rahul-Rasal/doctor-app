@@ -154,17 +154,41 @@ exports.getAllApprovedDoctors = catchAsync(async (req, res, next) => {
 });
 
 exports.checkBookingAvailability = catchAsync(async (req, res, next) => {
+  // Find Doctor and see his timings
+  const doctor = await Doctor.findOne({ userId: req.body.doctorId });
+
+  if (!doctor) {
+    return next(new AppError("Doctor not found", 404));
+  }
+  const doctorFromTime = moment(doctor.fromTime);
+  const doctorToTime = moment(doctor.toTime);
+
+  // For Appointment Variables
   const date = moment(req.body.date);
   const fromTime = moment(req.body.time).subtract(30, "minutes");
-
   const toTime = moment(req.body.time).add(15, "minutes");
-
   const doctorId = req.body.doctorId;
+
+  const displayFromTime = moment(doctorFromTime).format("hh:mm A");
+  const displayToTime = moment(doctorToTime).format("hh:mm A");
+
+  if (
+    moment(req.body.time).add(1, "minutes").isBefore(doctorFromTime) ||
+    moment(req.body.time).add(1, "minutes").isAfter(doctorToTime)
+  ) {
+    return next(
+      new AppError(
+        `Please select a time within the doctor's working hours ${displayFromTime} to ${displayToTime}`,
+        400
+      )
+    );
+  }
 
   const appointments = await Appointment.find({
     doctorId,
     date,
     time: { $gte: fromTime, $lte: toTime },
+    status: { $ne: "rejected" }, // Exclude rejected appointments
   });
 
   // Check appointments length
