@@ -1,4 +1,5 @@
 import { parsePhoneNumber } from "libphonenumber-js";
+import moment from "moment";
 
 // prevent auto form submission
 export function onKeyDown(keyEvent: any) {
@@ -62,6 +63,19 @@ export const maskingPhoneNumber = (value: any) => {
     const phoneNumber = parsePhoneNumber(value);
     return phoneNumber.formatNational();
   }
+};
+
+export const add30Minutes = (timeString: string) => {
+  // Parse the input time string using moment
+  const momentTime = moment(timeString);
+
+  // Add 30 minutes
+  const newTime = momentTime.add(30, "minutes");
+
+  // Format the result back to the original string format
+  const formattedTime = newTime.format("ddd MMM DD YYYY HH:mm:ss [GMT]ZZ");
+
+  return formattedTime;
 };
 
 // Notification Friendly Messages

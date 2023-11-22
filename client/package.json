@@ -21,6 +21,7 @@
     "formik": "^2.4.5",
     "libphonenumber-js": "^1.10.49",
     "material-ui-phone-number": "^3.0.0",
+    "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.12.0",

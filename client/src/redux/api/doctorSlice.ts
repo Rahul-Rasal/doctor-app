@@ -79,6 +79,13 @@ export const doctorApiSlice = apiSlice.injectEndpoints({
       },
       invalidatesTags: ["Doctors"],
     }),
+    bookedAppointments: builder.query({
+      query: (data) => ({
+        url: `/users/booked-appointments/${data.userId}`,
+        method: "GET",
+      }),
+      providesTags: ["Doctors"],
+    }),
   }),
 });
 
@@ -92,4 +99,5 @@ export const {
   useCheckBookingAvailabilityMutation,
   useDoctorAppointmentsQuery,
   useAppointmentStatusMutation,
+  useBookedAppointmentsQuery,
 } = doctorApiSlice;

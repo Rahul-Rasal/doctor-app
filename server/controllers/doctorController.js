@@ -243,3 +243,15 @@ exports.changeAppointmentStatus = catchAsync(async (req, res, next) => {
     message: "Appointment status changed successfully",
   });
 });
+
+exports.getBookAppointments = catchAsync(async (req, res, next) => {
+  const appointments = await Appointment.find({
+    doctorId: req.params.id,
+    status: "approved",
+  });
+  res.status(200).send({
+    status: true,
+    message: "Appointments fetched successfully",
+    data: appointments,
+  });
+});

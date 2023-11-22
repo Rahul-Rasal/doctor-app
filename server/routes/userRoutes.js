@@ -34,11 +34,15 @@ router.get(
   authController.protect,
   doctorController.doctorAppointments
 );
-
 router.post(
   "/change-appointment-status",
   authController.protect,
   doctorController.changeAppointmentStatus
+);
+router.get(
+  "/booked-appointments/:id",
+  authController.protect,
+  doctorController.getBookAppointments
 );
 
 // NOTIFICATION FOR ADMIN

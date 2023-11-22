@@ -3,12 +3,16 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 // Redux
 import {
+  useBookedAppointmentsQuery,
   useCheckBookingAvailabilityMutation,
   useGetDoctorQuery,
 } from "../../../redux/api/doctorSlice";
 // Utils
 import {
+  add30Minutes,
   convertToAMPMFormat,
+  formatDate,
+  formatTime,
   onKeyDown,
   thousandSeparatorNumber,
 } from "../../../utils";
@@ -84,6 +88,10 @@ const BookAppointment = () => {
     useGetUserQuery({
       userId: loginUserId,
     });
+
+  // Get Booked Slots API
+  const { data: getAppointmentData, isLoading: getAppointmentLoading } =
+    useBookedAppointmentsQuery({ userId });
 
   const [bookAppointment, { isLoading: appointmentLoading }] =
     useBookAppointmentMutation();
@@ -176,7 +184,9 @@ const BookAppointment = () => {
 
   return (
     <>
-      {(isLoading || logedInUserLoading) && <OverlayLoader />}
+      {(isLoading || logedInUserLoading || getAppointmentLoading) && (
+        <OverlayLoader />
+      )}
       <Navbar>
         <Heading>Book Appointments</Heading>
         <Box>
@@ -471,6 +481,66 @@ const BookAppointment = () => {
                 </Box>
               </Box>
             </Grid>
+            {getAppointmentData?.data?.length > 0 && (
+              <Grid item xs={4}>
+                <Box
+                  sx={{
+                    margin: "20px 0",
+                    background: "#fff",
+                    borderRadius: "6px",
+                    padding: "15px 20px",
+                    boxShadow: "rgba(0, 0, 0, 0.1) 0px 0px 10px",
+                  }}
+                >
+                  <Heading
+                    sx={{
+                      margin: "5px 0",
+                      fontSize: "18px",
+                    }}
+                  >
+                    Booked Appointments Details
+                  </Heading>
+                  <Divider />
+                  {getAppointmentData?.data?.map((item: any) => (
+                    <Box
+                      sx={{
+                        margin: "15px 0 10px 0",
+                        display: "flex",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Box
+                        sx={{
+                          minWidth: "150px",
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "3px",
+                        }}
+                      >
+                        {formatDate(item?.date)}
+                      </Box>
+                      <Box
+                        sx={{
+                          background: "#eaebef",
+                          color: "#6c777f",
+                          padding: "5px",
+                          borderRadius: "5px",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          minWidth: "150px",
+                          fontSize: "13px",
+                        }}
+                      >
+                        {`${formatTime(item?.time)} to ${formatTime(
+                          add30Minutes(item?.time)
+                        )}`}
+                      </Box>
+                    </Box>
+                  ))}
+                </Box>
+              </Grid>
+            )}
           </Grid>
         </Box>
       </Navbar>
