@@ -24,6 +24,7 @@ import MUITable, {
 import Navbar from "../../components/Navbar";
 import OverlayLoader from "../../components/Spinner/OverlayLoader";
 import { IoBookOutline } from "react-icons/io5";
+import { CgUnblock } from "react-icons/cg";
 
 const tableHead = [
   "Name",
@@ -119,7 +120,7 @@ const Doctors = () => {
                           : row.status === "approved"
                           ? "Approved"
                           : row.status === "blocked"
-                          ? "Rejected"
+                          ? "Blocked"
                           : ""
                       }
                     />
@@ -128,6 +129,8 @@ const Doctors = () => {
                     title={
                       row.status === "pending"
                         ? "Approve Doctor"
+                        : row.status === "blocked"
+                        ? "Unblock User"
                         : "Banned User"
                     }
                     placement="bottom"
@@ -160,12 +163,18 @@ const Doctors = () => {
                             <Box>
                               {row.status === "pending" ? (
                                 <TiTickOutline style={{ fontSize: "20px" }} />
+                              ) : row.status === "blocked" ? (
+                                <CgUnblock style={{ fontSize: "17px" }} />
                               ) : (
                                 <MdBlock />
                               )}
                             </Box>
                             <Box>
-                              {row.status === "pending" ? "Approve" : "Block"}
+                              {row.status === "pending"
+                                ? "Approve"
+                                : row.status === "blocked"
+                                ? "UnBlock"
+                                : "Block"}
                             </Box>
                           </Box>
                         </>

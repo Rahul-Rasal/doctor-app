@@ -42,6 +42,10 @@ const CustomChip = ({ label }: Props) => {
         color = "#c21717";
         bgColor = convertColorToRgb(color);
         break;
+      case "Blocked":
+        color = "#FF8554";
+        bgColor = convertColorToRgb(color);
+        break;
       default:
         color = `#292929`;
         bgColor = "#dcdee4";
