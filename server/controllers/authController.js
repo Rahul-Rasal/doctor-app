@@ -26,10 +26,18 @@ const createSendToken = (user, statusCode, res) => {
 };
 
 exports.signup = catchAsync(async (req, res, next) => {
+  // Check if there are any users in the database
+  const userCount = await User.countDocuments();
+
+  // Determine if the current user being added is the first user
+  const isAdmin = userCount === 0;
+
   const newUser = await User.create({
     name: req.body.name,
     email: req.body.email,
+    phoneNumber: req.body.phoneNumber,
     password: req.body.password,
+    isAdmin,
   });
 
   createSendToken(newUser, 201, res);

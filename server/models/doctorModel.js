@@ -7,13 +7,13 @@ const doctorSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    firstName: {
+    prefix: {
       type: String,
-      required: [true, "Please tell us your first name!"],
+      required: [true, "Please tell us your Prefix!"],
     },
-    lastName: {
+    fullName: {
       type: String,
-      required: [true, "Please tell us your last name!"],
+      required: [true, "Please tell us your full name!"],
     },
     email: {
       type: String,

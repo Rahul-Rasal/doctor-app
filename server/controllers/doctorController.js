@@ -24,10 +24,10 @@ exports.doctorSignup = catchAsync(async (req, res, next) => {
   const unseenNotifications = adminUser.unseenNotifications;
   unseenNotifications.push({
     type: "new-doctor-request",
-    message: `${newDoctor.firstName} ${newDoctor.lastName} has requested to join as a doctor.`,
+    message: `${newDoctor.name}has requested to join as a doctor.`,
     data: {
       doctorId: newDoctor._id,
-      name: newDoctor.firstName + " " + newDoctor.lastName,
+      name: newDoctor.name,
     },
     onClickPath: "/admin/doctors",
   });

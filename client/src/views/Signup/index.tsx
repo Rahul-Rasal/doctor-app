@@ -19,10 +19,12 @@ import PrimaryInput from "../../components/PrimaryInput/PrimaryInput";
 import NextWhiteLogo from "../../assets/images/nexCenterLogo.svg";
 // Redux API
 import { useSignupMutation } from "../../redux/api/authApiSlice";
+import PrimaryPhoneInput from "../../components/PhoneInput";
 
 interface ISSignupForm {
   name: string;
   email: string;
+  phoneNumber: string;
   password: string;
 }
 
@@ -34,6 +36,7 @@ const Signup = () => {
   const [formValues, setFormValues] = useState<ISSignupForm>({
     name: "",
     email: "",
+    phoneNumber: "",
     password: "",
   });
   const [toast, setToast] = useState({
@@ -57,6 +60,7 @@ const Signup = () => {
     const payload = {
       name: data.name,
       email: data.email,
+      phoneNumber: data.phoneNumber,
       password: data.password,
     };
     try {
@@ -246,7 +250,12 @@ const Signup = () => {
 
                       return (
                         <Form onKeyDown={onKeyDown}>
-                          <Box sx={{ marginBottom: "10px", marginTop: "20px" }}>
+                          <Box
+                            sx={{
+                              marginTop: "20px",
+                              height: "95px",
+                            }}
+                          >
                             <SubHeading sx={{ marginBottom: "5px" }}>
                               Name
                             </SubHeading>
@@ -264,7 +273,7 @@ const Signup = () => {
                               onBlur={handleBlur}
                             />
                           </Box>
-                          <Box sx={{ marginBottom: "10px" }}>
+                          <Box sx={{ height: "95px" }}>
                             <SubHeading sx={{ marginBottom: "5px" }}>
                               Email
                             </SubHeading>
@@ -286,7 +295,20 @@ const Signup = () => {
                               onBlur={handleBlur}
                             />
                           </Box>
-                          <Box sx={{ marginBottom: "10px" }}>
+
+                          <Box sx={{ height: "95px" }}>
+                            <SubHeading sx={{ marginBottom: "5px" }}>
+                              Mobile Number
+                            </SubHeading>
+                            <PrimaryPhoneInput
+                              value={values.phoneNumber}
+                              name="phoneNumber"
+                              formik={props}
+                              variant="outlined"
+                              label=""
+                            />
+                          </Box>
+                          <Box sx={{ height: "95px" }}>
                             <SubHeading sx={{ marginBottom: "5px" }}>
                               Password
                             </SubHeading>

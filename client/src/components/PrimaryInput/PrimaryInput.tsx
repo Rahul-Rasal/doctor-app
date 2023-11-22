@@ -90,6 +90,9 @@ const PrimaryInput: React.FC<PrimaryInputProps> = ({
           "& .MuiInputBase-input::placeholder": {
             fontSize: "14px",
           },
+          "& .MuiOutlinedInput-input": {
+            cursor: readOnly ? "not-allowed" : "",
+          },
         },
         sx,
       ]}

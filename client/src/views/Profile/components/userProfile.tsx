@@ -8,7 +8,11 @@ import {
   userIsDoctor,
 } from "../../../redux/auth/authSlice";
 // Utils
-import { formatDateTime, getNameInitials } from "../../../utils";
+import {
+  formatDateTime,
+  getNameInitials,
+  maskingPhoneNumber,
+} from "../../../utils";
 // MUI Imports
 import { Box, Avatar } from "@mui/material";
 // Custom Imports
@@ -37,7 +41,7 @@ const UserProfile = () => {
             borderRadius: "6px",
             padding: "15px 20px",
             boxShadow: "rgba(0, 0, 0, 0.1) 0px 0px 10px",
-            maxWidth: "300px",
+            maxWidth: "320px",
           }}
         >
           <Box
@@ -75,14 +79,26 @@ const UserProfile = () => {
               {getNameInitials(data?.data?.name)}
             </Avatar>
           </Box>
+          <Heading
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              margin: "5px 0 0px",
+              fontSize: "18px",
+              fontWeight: 700,
+            }}
+          >
+            {data?.data?.name}
+          </Heading>
           <Box
             sx={{
               display: "flex",
               justifyContent: "center",
-              margin: "5px 0 15px",
+              margin: "0 0 15px 0",
+              fontSize: "14px",
             }}
           >
-            {data?.data?.name}
+            {maskingPhoneNumber(data?.data?.phoneNumber)}
           </Box>
 
           <Box

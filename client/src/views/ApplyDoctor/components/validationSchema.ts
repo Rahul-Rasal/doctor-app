@@ -1,8 +1,8 @@
 import * as Yup from "yup";
 
 export const applyDoctorSchema = Yup.object().shape({
-  firstName: Yup.string().required("First Name is required"),
-  lastName: Yup.string().required("Last Name is required"),
+  prefix: Yup.string().required("Prefix is required"),
+  fullName: Yup.string().required("Full Name is required"),
   phoneNumber: Yup.string().required("Phone Number is required"),
   //   website is not required
   website: Yup.string().nullable(),

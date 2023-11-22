@@ -13,23 +13,29 @@ import { Form, Formik, FormikProps } from "formik";
 // Hooks
 import useTypedSelector from "../../hooks/useTypedSelector";
 // Redux
-import { selectedUserEmail, selectedUserId } from "../../redux/auth/authSlice";
+import {
+  selectedUserEmail,
+  selectedUserId,
+  selectedUserName,
+  selectedUserPhoneNumber,
+} from "../../redux/auth/authSlice";
 import {
   useDoctorSignupMutation,
   useGetDoctorQuery,
 } from "../../redux/api/doctorSlice";
 // Custom Imports
 import ToastAlert from "../../components/ToastAlert/ToastAlert";
-import { applyDoctorSchema } from "./components/validationSchema";
 import PrimaryPhoneInput from "../../components/PhoneInput";
 import { Heading, SubHeading } from "../../components/Heading";
 import Navbar from "../../components/Navbar";
 import PrimaryInput from "../../components/PrimaryInput/PrimaryInput";
 import OverlayLoader from "../../components/Spinner/OverlayLoader";
+// Validation Schema
+import { applyDoctorSchema } from "./components/validationSchema";
 
 interface applyDoctorForm {
-  firstName: string;
-  lastName: string;
+  prefix: string;
+  fullName: string;
   phoneNumber: string;
   website: string;
   address: string;
@@ -57,12 +63,14 @@ const ApplyDoctor = () => {
   const navigate = useNavigate();
   const userEmail = useTypedSelector(selectedUserEmail);
   const userId = useTypedSelector(selectedUserId);
+  const userPhoneNumber = useTypedSelector(selectedUserPhoneNumber);
+  const userName = useTypedSelector(selectedUserName);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [formValues, setFormValues] = useState<applyDoctorForm>({
-    firstName: "",
-    lastName: "",
-    phoneNumber: "",
+    prefix: "Dr.",
+    fullName: userName,
+    phoneNumber: userPhoneNumber,
     website: "",
     address: "",
     specialization: "",
@@ -88,8 +96,8 @@ const ApplyDoctor = () => {
     try {
       const payload = {
         userId,
-        firstName: data.firstName,
-        lastName: data.lastName,
+        prefix: data.prefix,
+        fullName: data.fullName,
         email: userEmail,
         phoneNumber: data.phoneNumber,
         website: data.website,
@@ -137,8 +145,6 @@ const ApplyDoctor = () => {
   const { data, isLoading: doctorLoading } = useGetDoctorQuery({
     userId,
   });
-
-  console.log("data", data?.data?.status);
 
   return (
     <>
@@ -206,47 +212,49 @@ const ApplyDoctor = () => {
                           <Grid item xs={4}>
                             <Box sx={{ marginBottom: "10px" }}>
                               <SubHeading sx={{ marginBottom: "5px" }}>
-                                First Name
+                                Prefix
                               </SubHeading>
                               <PrimaryInput
                                 type="text"
                                 label=""
-                                name="firstName"
-                                placeholder="First Name"
-                                value={values.firstName}
+                                name="prefix"
+                                placeholder="Prefix"
+                                value={values.prefix}
+                                readOnly={true}
                                 helperText={
-                                  errors.firstName && touched.firstName
-                                    ? errors.firstName
+                                  errors.prefix && touched.prefix
+                                    ? errors.prefix
                                     : ""
                                 }
                                 error={
-                                  errors.firstName && touched.firstName
-                                    ? true
-                                    : false
+                                  errors.prefix && touched.prefix ? true : false
                                 }
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                               />
                             </Box>
                           </Grid>
+
                           <Grid item xs={4}>
                             <Box sx={{ marginBottom: "10px" }}>
                               <SubHeading sx={{ marginBottom: "5px" }}>
-                                Last Name
+                                Full Name
                               </SubHeading>
                               <PrimaryInput
                                 type="text"
                                 label=""
-                                name="lastName"
-                                placeholder="Last Name"
-                                value={values.lastName}
+                                name="fullName"
+                                placeholder="Full Name"
+                                value={values.fullName}
+                                readOnly={true}
+                                sx={{ cursor: "not-allowed" }}
                                 helperText={
-                                  errors.lastName && touched.lastName
-                                    ? errors.lastName
+                                  errors.fullName && touched.fullName
+                                    ? errors.fullName
                                     : ""
                                 }
                                 error={
-                                  errors.lastName && touched.lastName
+                                  errors.fullName && touched.fullName
                                     ? true
                                     : false
                                 }
@@ -256,7 +264,11 @@ const ApplyDoctor = () => {
                             </Box>
                           </Grid>
                           <Grid item xs={4}>
-                            <Box sx={{ marginBottom: "10px" }}>
+                            <Box
+                              sx={{
+                                marginBottom: "10px",
+                              }}
+                            >
                               <SubHeading sx={{ marginBottom: "5px" }}>
                                 Mobile Number
                               </SubHeading>
@@ -266,6 +278,7 @@ const ApplyDoctor = () => {
                                 formik={props}
                                 variant="outlined"
                                 label=""
+                                readOnly={true}
                               />
                             </Box>
                           </Grid>

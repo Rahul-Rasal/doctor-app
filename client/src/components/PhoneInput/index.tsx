@@ -14,6 +14,7 @@ interface PhoneNumberProps {
   formik?: any;
   authScreens?: boolean;
   disabled?: boolean;
+  readOnly?: boolean;
   showErrorMessage?: boolean;
 }
 
@@ -27,6 +28,7 @@ const PrimaryPhoneInput = ({
   formik,
   authScreens,
   disabled,
+  readOnly,
   showErrorMessage,
 }: PhoneNumberProps) => {
   const [defaultCountry, setDefaultCountry] = useState<any>("");
@@ -68,7 +70,6 @@ const PrimaryPhoneInput = ({
       <MuiPhoneNumber
         sx={{
           width: "100% !important",
-          // maxWidth: '600px',
           background: "#fff",
           height: "50px",
           "& .MuiOutlinedInput-root": {
@@ -97,6 +98,10 @@ const PrimaryPhoneInput = ({
         onBlur={formik?.handleBlur}
         disabled={disabled}
         disableDropdown={loader || disabled}
+        inputProps={{
+          readOnly: readOnly,
+          style: { cursor: readOnly ? "not-allowed" : "" },
+        }}
       />
     </>
   );
