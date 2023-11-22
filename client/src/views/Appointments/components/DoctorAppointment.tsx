@@ -112,7 +112,7 @@ const DoctorAppointment = () => {
                           : row.status === "approved"
                           ? "Approved"
                           : row.status === "rejected"
-                          ? "Rejected"
+                          ? "Cancelled"
                           : ""
                       }
                     />

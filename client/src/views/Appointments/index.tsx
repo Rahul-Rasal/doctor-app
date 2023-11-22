@@ -54,7 +54,7 @@ const Appointments = () => {
                           : row.status === "approved"
                           ? "Approved"
                           : row.status === "rejected"
-                          ? "Rejected"
+                          ? "Cancelled"
                           : ""
                       }
                     />

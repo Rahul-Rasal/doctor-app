@@ -2,6 +2,7 @@ const catchAsync = require("../utils/catchAsync");
 const User = require("../models/userModel");
 const Appointment = require("../models/appointmentModel");
 const moment = require("moment");
+const Doctor = require("../models/doctorModel");
 
 exports.verifyUser = catchAsync(async (req, res, next) => {
   res.status(200).json({
@@ -15,6 +16,7 @@ exports.getAllUsers = catchAsync(async (req, res, next) => {
   const users = await User.find();
   const filteredUsers = users.map((user) => {
     return {
+      id: user._id,
       name: user.name,
       email: user.email,
       createdAt: user.createdAt,
@@ -75,5 +77,21 @@ exports.userAppointments = catchAsync(async (req, res, next) => {
     status: "success",
     message: "Appointments fetched successfully.",
     data: appointments,
+  });
+});
+
+exports.deleteUser = catchAsync(async (req, res, next) => {
+  const userId = req.params.id;
+
+  // 1) Find USer Delete User
+  await User.findByIdAndDelete(userId);
+  // 2) Delete Doctor
+  await Doctor.findOneAndDelete({ userId });
+  // 3) Delete associated appointments
+  await Appointment.deleteMany({ doctorId: userId });
+
+  res.status(204).json({
+    status: "success",
+    data: null,
   });
 });

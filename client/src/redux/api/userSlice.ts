@@ -36,6 +36,13 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
       providesTags: ["Doctors"],
     }),
+    deleteUser: builder.mutation({
+      query: (data) => ({
+        url: `/users/${data.userId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Doctors"],
+    }),
   }),
 });
 
@@ -45,4 +52,5 @@ export const {
   useGetUserQuery,
   useBookAppointmentMutation,
   useUserAppointmentsQuery,
+  useDeleteUserMutation,
 } = userApiSlice;

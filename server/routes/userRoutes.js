@@ -72,11 +72,11 @@ router.post(
   authController.protect,
   doctorController.checkBookingAvailability
 );
-
 router.get(
   "/user-appointments/:id",
   authController.protect,
   userController.userAppointments
 );
+router.delete("/:id", authController.protect, userController.deleteUser);
 
 module.exports = router;

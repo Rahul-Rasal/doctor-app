@@ -38,7 +38,7 @@ const CustomChip = ({ label }: Props) => {
         color = "#13B981";
         bgColor = "#E7F8F2";
         break;
-      case "Rejected":
+      case "Cancelled":
         color = "#c21717";
         bgColor = convertColorToRgb(color);
         break;
