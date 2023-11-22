@@ -189,3 +189,33 @@ exports.doctorAppointments = catchAsync(async (req, res, next) => {
     data: appointments,
   });
 });
+
+exports.changeAppointmentStatus = catchAsync(async (req, res, next) => {
+  const { appointmentId, status } = req.body;
+
+  const appointment = await Appointment.findByIdAndUpdate(appointmentId, {
+    status,
+  });
+
+  if (!appointment) return next(new AppError("Appointment not found", 404));
+
+  // find user and send notification
+  const user = await User.findById(appointment.userId);
+
+  const unseenNotifications = user.unseenNotifications;
+  unseenNotifications.push({
+    type: "appointment-status-changed",
+    message: `Your appointment status has been ${status}`,
+    data: {
+      name: user.name,
+    },
+    onClickPath: "/appointments",
+  });
+
+  await user.save();
+
+  res.status(200).send({
+    status: true,
+    message: "Appointment status changed successfully",
+  });
+});

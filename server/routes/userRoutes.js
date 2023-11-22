@@ -35,6 +35,12 @@ router.get(
   doctorController.doctorAppointments
 );
 
+router.post(
+  "/change-appointment-status",
+  authController.protect,
+  doctorController.changeAppointmentStatus
+);
+
 // NOTIFICATION FOR ADMIN
 router.post(
   "/mark-all-notification-as-seen",
