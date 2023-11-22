@@ -10,7 +10,7 @@ import MUITable, {
   StyledTableCell,
   StyledTableRow,
 } from "../../../components/MUITable";
-import { formatDate, formatTime } from "../../../utils";
+import { formatDate, formatTime, maskingPhoneNumber } from "../../../utils";
 import CustomChip from "../../../components/CustomChip";
 import { IoBookOutline } from "react-icons/io5";
 import { TiTickOutline } from "react-icons/ti";
@@ -44,8 +44,7 @@ const DoctorAppointment = () => {
                   <StyledTableCell>{row._id}</StyledTableCell>
                   <StyledTableCell>{`${row.userInfo?.name}`}</StyledTableCell>
                   <StyledTableCell>
-                    {/* {maskingPhoneNumber(row?.doctorInfo?.phoneNumber)} */}
-                    090078601
+                    {maskingPhoneNumber(row?.userInfo?.phoneNumber)}
                   </StyledTableCell>
                   <StyledTableCell>{`${formatDate(row?.date)} ${formatTime(
                     row?.time
