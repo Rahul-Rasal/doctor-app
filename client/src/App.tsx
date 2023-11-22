@@ -18,6 +18,7 @@ import { useDispatch } from "react-redux";
 import { setUser } from "./redux/auth/authSlice";
 import OverlayLoader from "./components/Spinner/OverlayLoader";
 import BookAppointment from "./views/Appointments/components/BookAppointment";
+import DoctorAppointment from "./views/Appointments/components/DoctorAppointment";
 
 function App() {
   const dispatch = useDispatch();
@@ -78,6 +79,14 @@ function App() {
             element={
               <ProtectedRoutes>
                 <Appointments />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/doctors/appointments"
+            element={
+              <ProtectedRoutes>
+                <DoctorAppointment />
               </ProtectedRoutes>
             }
           />

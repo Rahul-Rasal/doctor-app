@@ -33,7 +33,7 @@ import Navbar from "../../../components/Navbar";
 import { Heading, SubHeading } from "../../../components/Heading";
 import OverlayLoader from "../../../components/Spinner/OverlayLoader";
 import useTypedSelector from "../../../hooks/useTypedSelector";
-import { selectedUserId } from "../../../redux/auth/authSlice";
+import { selectedUserId, userIsDoctor } from "../../../redux/auth/authSlice";
 import {
   useBookAppointmentMutation,
   useGetUserQuery,
@@ -55,6 +55,7 @@ const BookAppointment = () => {
   // Doctor Id  ===> userId
   const { userId } = useParams();
   const loginUserId = useTypedSelector(selectedUserId);
+  const isDoctor = useTypedSelector(userIsDoctor);
   const [isAvailable, setIsAvailable] = useState(false);
   const [appointment, setAppointment] = useState("");
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -150,7 +151,7 @@ const BookAppointment = () => {
             type: "success",
           });
           setTimeout(() => {
-            navigate("/appointments");
+            navigate(isDoctor ? "/doctors/appointments" : "/appointments");
           }, 1500);
         }
         if (userAppointment?.error) {

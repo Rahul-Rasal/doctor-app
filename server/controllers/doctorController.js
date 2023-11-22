@@ -154,7 +154,7 @@ exports.getAllApprovedDoctors = catchAsync(async (req, res, next) => {
 });
 
 exports.checkBookingAvailability = catchAsync(async (req, res, next) => {
-  const date = moment(req.body.date).toISOString();
+  const date = moment(req.body.date);
   const fromTime = moment(req.body.time).subtract(30, "minutes");
 
   const toTime = moment(req.body.time).add(15, "minutes");
@@ -176,4 +176,16 @@ exports.checkBookingAvailability = catchAsync(async (req, res, next) => {
       message: "Appointment available",
     });
   }
+});
+
+exports.doctorAppointments = catchAsync(async (req, res, next) => {
+  const doctor = await Doctor.findOne({ userId: req.params.id });
+  if (!doctor) return next(new AppError("Doctor not found", 404));
+
+  const appointments = await Appointment.find({ doctorId: doctor.userId });
+  res.status(200).json({
+    status: "success",
+    message: "Appointments fetched successfully.",
+    data: appointments,
+  });
 });

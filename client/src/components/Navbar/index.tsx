@@ -151,7 +151,7 @@ export default function Navbar({ children }: DashboardProps) {
     {
       text: "Appointments",
       icon: IoDocumentTextOutline,
-      path: "/appointments",
+      path: "/doctors/appointments",
     },
     { text: "Profile", icon: FaRegCircleUser, path: `/profile/${userId}` },
   ];
@@ -168,7 +168,7 @@ export default function Navbar({ children }: DashboardProps) {
   ];
 
   const routes = isAdmin ? adminRoutes : isDoctor ? doctorRoutes : userRoutes;
-  const chipLabel = isAdmin ? "Admin" : isDoctor ? "Doctor" : "";
+  const chipLabel = isAdmin ? "Admin" : isDoctor ? "Doctor" : "User";
 
   return (
     <Box sx={{ display: "flex" }}>

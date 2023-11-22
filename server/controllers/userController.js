@@ -42,7 +42,7 @@ exports.getUser = catchAsync(async (req, res, next) => {
 
 exports.bookAppointment = catchAsync(async (req, res, next) => {
   req.body.status = "pending";
-  req.body.date = moment(req.body.date).toISOString();
+  req.body.date = moment(req.body.date);
   req.body.time = moment(req.body.time);
 
   const newAppointment = new Appointment(req.body);

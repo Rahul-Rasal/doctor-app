@@ -29,6 +29,11 @@ router.put(
   authController.protect,
   doctorController.updateDoctor
 );
+router.get(
+  "/doctors/appointments/:id",
+  authController.protect,
+  doctorController.doctorAppointments
+);
 
 // NOTIFICATION FOR ADMIN
 router.post(
