@@ -28,6 +28,10 @@ const Dashboard = () => {
       {isLoading && <OverlayLoader />}
       <Navbar>
         <Heading>Available Doctors</Heading>
+        <Heading sx={{ margin: "10px 0", fontSize: "14px", fontWeight: 500 }}>
+          Select Doctor to add Appointments
+        </Heading>
+
         <Box>
           <Grid container rowSpacing={2} columnSpacing={4}>
             {data?.data?.length === 0 ? (
@@ -55,6 +59,9 @@ const Dashboard = () => {
                           padding: "15px 20px",
                           boxShadow: "rgba(0, 0, 0, 0.1) 0px 0px 10px",
                           cursor: "pointer",
+                          "&:hover": {
+                            border: "2px solid #13B981",
+                          },
                         }}
                         onClick={() => {
                           navigate(`/book-appointments/${row?.userId}`);

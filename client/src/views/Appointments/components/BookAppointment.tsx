@@ -375,7 +375,27 @@ const BookAppointment = () => {
                 >
                   <Box
                     sx={{
-                      minWidth: "180px",
+                      minWidth: "220px",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "3px",
+                    }}
+                  >
+                    <IoMdTime />
+                    Consultation Time
+                  </Box>
+                  <Box>30 Minutes </Box>
+                </Box>
+                <Box
+                  sx={{
+                    margin: "15px 0 10px 0",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      minWidth: "220px",
                       display: "flex",
                       alignItems: "center",
                       gap: "3px",
@@ -395,7 +415,7 @@ const BookAppointment = () => {
                 >
                   <Box
                     sx={{
-                      minWidth: "180px",
+                      minWidth: "220px",
                       display: "flex",
                       alignItems: "center",
                       gap: "3px",
@@ -406,6 +426,7 @@ const BookAppointment = () => {
                   </Box>
                   <Box>{data?.data?.experience} Years </Box>
                 </Box>
+
                 <Box
                   sx={{
                     margin: "15px 0 10px 0",
@@ -415,7 +436,7 @@ const BookAppointment = () => {
                 >
                   <Box
                     sx={{
-                      minWidth: "180px",
+                      minWidth: "220px",
                       display: "flex",
                       alignItems: "center",
                       gap: "3px",
@@ -437,7 +458,7 @@ const BookAppointment = () => {
                 >
                   <Box
                     sx={{
-                      minWidth: "180px",
+                      minWidth: "220px",
                       display: "flex",
                       alignItems: "center",
                       gap: "3px",

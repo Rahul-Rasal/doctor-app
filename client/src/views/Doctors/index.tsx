@@ -118,6 +118,8 @@ const Doctors = () => {
                           ? "Pending"
                           : row.status === "approved"
                           ? "Approved"
+                          : row.status === "blocked"
+                          ? "Rejected"
                           : ""
                       }
                     />
@@ -135,7 +137,11 @@ const Doctors = () => {
                       onClick={() => {
                         doctorHandler(
                           row,
-                          row.status === "pending" ? "approved" : "blocked"
+                          row.status === "pending"
+                            ? "approved"
+                            : row.status === "blocked"
+                            ? "approved"
+                            : "blocked"
                         );
                         setDoctorId(row._id);
                       }}
