@@ -28,6 +28,7 @@ import { CgUnblock } from "react-icons/cg";
 
 const tableHead = [
   "Name",
+  "Specialty",
   "Email",
   "Phone Number",
   "Date",
@@ -105,6 +106,7 @@ const Doctors = () => {
               data?.data?.map((row: any) => (
                 <StyledTableRow key={`${row.email}`}>
                   <StyledTableCell>{`${row.prefix} ${row.fullName}`}</StyledTableCell>
+                  <StyledTableCell>{row.specialization}</StyledTableCell>
                   <StyledTableCell>{row.email}</StyledTableCell>
                   <StyledTableCell>
                     {maskingPhoneNumber(row.phoneNumber)}

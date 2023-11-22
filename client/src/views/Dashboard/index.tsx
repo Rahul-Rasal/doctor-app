@@ -73,9 +73,15 @@ const Dashboard = () => {
                           sx={{
                             margin: "5px 0",
                             fontSize: "18px",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 1,
                           }}
                         >
                           {`${row?.fullName}`}
+                          <Box sx={{ fontSize: "14px" }}>
+                            {`(${row?.specialization})`}
+                          </Box>
                         </Heading>
                         <Divider />
                         <Box
