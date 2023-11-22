@@ -13,6 +13,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
         url: "/users",
         method: "GET",
       }),
+      providesTags: ["Doctors"],
     }),
     getUser: builder.query({
       query: (data) => ({

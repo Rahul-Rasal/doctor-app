@@ -162,7 +162,6 @@ const ApplyDoctor = () => {
                   borderRadius: "6px",
                   padding: "15px 20px",
                   boxShadow: "rgba(0, 0, 0, 0.1) 0px 0px 10px",
-                  cursor: "pointer",
                 }}
               >
                 You already applied please wait for Admin Approval

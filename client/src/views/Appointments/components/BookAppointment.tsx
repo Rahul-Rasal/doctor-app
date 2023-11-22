@@ -363,7 +363,7 @@ const BookAppointment = () => {
                     fontSize: "18px",
                   }}
                 >
-                  {`${data?.data?.firstName} ${data?.data?.lastName}`}
+                  {`${data?.data?.fullName}`}
                 </Heading>
                 <Divider />
                 <Box

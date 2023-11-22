@@ -38,7 +38,6 @@ const Dashboard = () => {
                   borderRadius: "6px",
                   padding: "15px 20px",
                   boxShadow: "rgba(0, 0, 0, 0.1) 0px 0px 10px",
-                  cursor: "pointer",
                 }}
               >
                 No Doctors Available in this Clinic
@@ -67,7 +66,7 @@ const Dashboard = () => {
                             fontSize: "18px",
                           }}
                         >
-                          {`${row?.firstName} ${row?.lastName}`}
+                          {`${row?.fullName}`}
                         </Heading>
                         <Divider />
                         <Box

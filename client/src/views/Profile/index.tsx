@@ -28,8 +28,8 @@ import PrimaryInput from "../../components/PrimaryInput/PrimaryInput";
 import PrimaryPhoneInput from "../../components/PhoneInput";
 
 interface ProfileForm {
-  firstName: string;
-  lastName: string;
+  prefix: string;
+  fullName: string;
   phoneNumber: string;
   website: string;
   address: string;
@@ -59,8 +59,8 @@ const Profile = () => {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [formValues, setFormValues] = useState<ProfileForm>({
-    firstName: "",
-    lastName: "",
+    prefix: "",
+    fullName: "",
     phoneNumber: "",
     website: "",
     address: "",
@@ -92,8 +92,8 @@ const Profile = () => {
   useEffect(() => {
     if (isSuccess) {
       setFormValues({
-        firstName: data?.data?.firstName,
-        lastName: data?.data?.lastName,
+        prefix: data?.data?.prefix,
+        fullName: data?.data?.fullName,
         phoneNumber: data?.data?.phoneNumber,
         website: data?.data?.website,
         address: data?.data?.address,
@@ -111,8 +111,8 @@ const Profile = () => {
   const profileHandler = async (data: ProfileForm) => {
     try {
       const payload = {
-        firstName: data?.firstName,
-        lastName: data?.lastName,
+        prefix: data.prefix,
+        fullName: data.fullName,
         phoneNumber: data?.phoneNumber,
         website: data?.website,
         address: data?.address,
@@ -205,21 +205,22 @@ const Profile = () => {
                             <Grid item xs={4}>
                               <Box sx={{ marginBottom: "10px" }}>
                                 <SubHeading sx={{ marginBottom: "5px" }}>
-                                  First Name
+                                  Prefix
                                 </SubHeading>
                                 <PrimaryInput
                                   type="text"
                                   label=""
-                                  name="firstName"
-                                  placeholder="First Name"
-                                  value={values.firstName}
+                                  name="prefix"
+                                  placeholder="Prefix"
+                                  value={values.prefix}
+                                  readOnly={true}
                                   helperText={
-                                    errors.firstName && touched.firstName
-                                      ? errors.firstName
+                                    errors.prefix && touched.prefix
+                                      ? errors.prefix
                                       : ""
                                   }
                                   error={
-                                    errors.firstName && touched.firstName
+                                    errors.prefix && touched.prefix
                                       ? true
                                       : false
                                   }
@@ -228,24 +229,27 @@ const Profile = () => {
                                 />
                               </Box>
                             </Grid>
+
                             <Grid item xs={4}>
                               <Box sx={{ marginBottom: "10px" }}>
                                 <SubHeading sx={{ marginBottom: "5px" }}>
-                                  Last Name
+                                  Full Name
                                 </SubHeading>
                                 <PrimaryInput
                                   type="text"
                                   label=""
-                                  name="lastName"
-                                  placeholder="Last Name"
-                                  value={values.lastName}
+                                  name="fullName"
+                                  placeholder="Full Name"
+                                  value={values.fullName}
+                                  readOnly={true}
+                                  sx={{ cursor: "not-allowed" }}
                                   helperText={
-                                    errors.lastName && touched.lastName
-                                      ? errors.lastName
+                                    errors.fullName && touched.fullName
+                                      ? errors.fullName
                                       : ""
                                   }
                                   error={
-                                    errors.lastName && touched.lastName
+                                    errors.fullName && touched.fullName
                                       ? true
                                       : false
                                   }
@@ -265,6 +269,7 @@ const Profile = () => {
                                   formik={props}
                                   variant="outlined"
                                   label=""
+                                  readOnly={true}
                                 />
                               </Box>
                             </Grid>

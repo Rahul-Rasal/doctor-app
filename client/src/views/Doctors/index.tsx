@@ -103,7 +103,7 @@ const Doctors = () => {
             {isSuccess && data?.data?.length > 0 ? (
               data?.data?.map((row: any) => (
                 <StyledTableRow key={`${row.email}`}>
-                  <StyledTableCell>{`${row.firstName} ${row.lastName}`}</StyledTableCell>
+                  <StyledTableCell>{`${row.prefix} ${row.fullName}`}</StyledTableCell>
                   <StyledTableCell>{row.email}</StyledTableCell>
                   <StyledTableCell>
                     {maskingPhoneNumber(row.phoneNumber)}

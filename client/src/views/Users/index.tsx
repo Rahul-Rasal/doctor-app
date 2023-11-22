@@ -20,8 +20,6 @@ const tableHead = ["Name", "Email", "Date", "Roles", "Actions"];
 const Users = () => {
   const { data, isLoading, isSuccess } = useGetAllUsersQuery({});
 
-  console.log("data", data);
-
   return (
     <>
       {isLoading && <OverlayLoader />}
@@ -37,7 +35,7 @@ const Users = () => {
             {isSuccess &&
               data.data.map((row: any) => (
                 <StyledTableRow key={row.name}>
-                  <StyledTableCell>{row.name}</StyledTableCell>
+                  <StyledTableCell>{row?.name}</StyledTableCell>
                   <StyledTableCell>{row.email}</StyledTableCell>
                   <StyledTableCell>
                     {formatDateTime(row.createdAt)}

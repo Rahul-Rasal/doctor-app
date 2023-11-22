@@ -39,7 +39,7 @@ const Appointments = () => {
               data.data.map((row: any) => (
                 <StyledTableRow key={row._id}>
                   <StyledTableCell>{row._id}</StyledTableCell>
-                  <StyledTableCell>{`${row.doctorInfo?.firstName} ${row.doctorInfo?.lastName}`}</StyledTableCell>
+                  <StyledTableCell>{`${row.doctorInfo?.prefix} ${row.doctorInfo?.fullName}`}</StyledTableCell>
                   <StyledTableCell>
                     {maskingPhoneNumber(row?.doctorInfo?.phoneNumber)}
                   </StyledTableCell>
