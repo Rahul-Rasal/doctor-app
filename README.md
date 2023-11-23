@@ -87,7 +87,7 @@ To run this project, you will need to add the following environment variables to
 - Endpoint: `http://127.0.0.1:5000/api/v1/users`
 - Endpoint: `http://127.0.0.1:5000/api/v1/doctors`
 
-### USERS API
+## USERS API
 
 #### Signup
 - **Method:** `POST`
@@ -133,7 +133,7 @@ To run this project, you will need to add the following environment variables to
 - **Method:** `POST`
 - **Endpoint:** `/change-doctor-status`
 
-### DOCTORS API
+## DOCTORS API
 
 #### Get All Doctors
 - **Method:** `GET`
