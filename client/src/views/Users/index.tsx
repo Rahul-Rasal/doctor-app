@@ -110,12 +110,12 @@ const Users = () => {
                             setUserId(row.id);
                           }}
                         >
-                          {row?.isAdmin ? (
+                          {row?.isAdmin || row?.isDoctor ? (
                             ""
                           ) : (
                             <MdDeleteOutline style={{ fontSize: "17px" }} />
                           )}
-                          {row?.isAdmin ? "" : "Delete"}
+                          {row?.isAdmin || row?.isDoctor ? "" : "Delete"}
                         </Box>
                       </Tooltip>
                     )}
