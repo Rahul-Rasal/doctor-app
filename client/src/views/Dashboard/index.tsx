@@ -78,7 +78,7 @@ const Dashboard = () => {
                             gap: 1,
                           }}
                         >
-                          {`${row?.fullName}`}
+                          {`${row?.prefix} ${row?.fullName}`}
                           <Box sx={{ fontSize: "14px" }}>
                             {`(${row?.specialization})`}
                           </Box>

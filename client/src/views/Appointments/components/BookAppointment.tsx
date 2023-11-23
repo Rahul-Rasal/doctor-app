@@ -376,7 +376,7 @@ const BookAppointment = () => {
                     gap: 1,
                   }}
                 >
-                  {`${data?.data?.fullName}`}
+                  {`${data?.data?.prefix} ${data?.data?.fullName}`}
                   <Box sx={{ fontSize: "14px" }}>
                     {`(${data?.data?.specialization})`}
                   </Box>
