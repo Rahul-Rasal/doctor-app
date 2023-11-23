@@ -3,9 +3,17 @@
   "version": "1.0.0",
   "description": "Doctor Appointment App",
   "main": "server.js",
+  "engines": {
+    "node": "18.14.2",
+    "npm": "9.5.0"
+  },
   "scripts": {
-    "start": "nodemon server.js",
-    "debug": "ndb server.js"
+    "client-install": "npm install --prefix client",
+    "server": "nodemon server.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "start": "node server.js",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
   "author": "Salman Muazam",
   "license": "ISC",
