@@ -3,8 +3,8 @@ import { apiSlice } from "./apiSlice";
 export const userApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     verifyUser: builder.query({
-      query: () => ({
-        url: "/users/verify-user",
+      query: (data) => ({
+        url: `/users/verify-user${data.userId}`,
         method: "GET",
       }),
     }),

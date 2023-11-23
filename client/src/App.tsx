@@ -15,14 +15,17 @@ import Users from "./views/Users";
 import Notifications from "./views/Notifications";
 import { useVerifyUserQuery } from "./redux/api/userSlice";
 import { useDispatch } from "react-redux";
-import { setUser } from "./redux/auth/authSlice";
+import { selectedUserId, setUser } from "./redux/auth/authSlice";
 import OverlayLoader from "./components/Spinner/OverlayLoader";
 import BookAppointment from "./views/Appointments/components/BookAppointment";
 import DoctorAppointment from "./views/Appointments/components/DoctorAppointment";
+import useTypedSelector from "./hooks/useTypedSelector";
 
 function App() {
   const dispatch = useDispatch();
-  const { data, isLoading, isSuccess } = useVerifyUserQuery({});
+  const userId = useTypedSelector(selectedUserId);
+
+  const { data, isLoading, isSuccess } = useVerifyUserQuery({ userId });
 
   useEffect(() => {
     const userData = localStorage.getItem("user");

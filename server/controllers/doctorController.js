@@ -40,76 +40,12 @@ exports.doctorSignup = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.notificationSeen = catchAsync(async (req, res, next) => {
-  const user = await User.findById(req.user._id);
-
-  const unseenNotifications = user.unseenNotifications;
-  user.seenNotifications = unseenNotifications;
-
-  user.unseenNotifications = [];
-
-  const updatedUser = await user.save();
-  updatedUser.password = undefined;
-
-  res.status(200).send({
-    status: true,
-    message: "All notifications seen",
-    data: updatedUser,
-  });
-});
-
-exports.deleteNotifications = catchAsync(async (req, res, next) => {
-  const user = await User.findById(req.user._id);
-
-  user.seenNotifications = [];
-  user.unseenNotifications = [];
-
-  const updatedUser = await user.save();
-  updatedUser.password = undefined;
-
-  res.status(200).send({
-    status: true,
-    message: "All notifications deleted",
-    data: updatedUser,
-  });
-});
-
 exports.getAllDoctors = catchAsync(async (req, res, next) => {
   const doctors = await Doctor.find();
 
   res.status(200).send({
     status: true,
     message: "All doctors fetched successfully",
-    data: doctors,
-  });
-});
-
-exports.doctorStatus = catchAsync(async (req, res, next) => {
-  const { doctorId, status, userId } = req.body;
-
-  const doctor = await Doctor.findByIdAndUpdate(doctorId, { status });
-  if (!doctor) return next(new AppError("Doctor not found", 404));
-
-  // Send Notification To User
-  const user = await User.findById(userId);
-  const unseenNotifications = user.unseenNotifications;
-  unseenNotifications.push({
-    type: "new-doctor-request-changed",
-    message: `Your doctor request has been ${status}`,
-    data: {
-      name: user.name,
-      doctorId: user._id,
-    },
-    onClickPath: "/notifications",
-  });
-  user.isDoctor = status === "approved" ? true : false;
-  await user.save();
-
-  const doctors = await Doctor.find();
-
-  res.status(200).send({
-    status: true,
-    message: "Doctor status changed successfully",
     data: doctors,
   });
 });

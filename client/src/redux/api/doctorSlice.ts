@@ -5,7 +5,7 @@ export const doctorApiSlice = apiSlice.injectEndpoints({
     doctorSignup: builder.mutation({
       query: (data) => {
         return {
-          url: "users/doctor/signup",
+          url: "doctors/signup",
           method: "POST",
           body: data,
         };
@@ -13,7 +13,7 @@ export const doctorApiSlice = apiSlice.injectEndpoints({
     }),
     getAllDoctors: builder.query({
       query: () => ({
-        url: "/users/doctors",
+        url: "doctors",
         method: "GET",
       }),
       providesTags: ["Doctors"],
@@ -31,7 +31,7 @@ export const doctorApiSlice = apiSlice.injectEndpoints({
     updateDoctor: builder.mutation({
       query: (data) => {
         return {
-          url: `users/doctors/${data.userId}`,
+          url: `doctors/${data.userId}`,
           method: "PUT",
           body: data,
         };
@@ -40,14 +40,14 @@ export const doctorApiSlice = apiSlice.injectEndpoints({
     }),
     getDoctor: builder.query({
       query: (data) => ({
-        url: `/users/doctors/${data.userId}`,
+        url: `doctors/${data.userId}`,
         method: "GET",
       }),
       providesTags: ["Doctors"],
     }),
     getApprovedDoctors: builder.query({
       query: () => ({
-        url: "/users/approved-doctors",
+        url: "doctors/approved-doctors",
         method: "GET",
       }),
       providesTags: ["Doctors"],
@@ -55,7 +55,7 @@ export const doctorApiSlice = apiSlice.injectEndpoints({
     checkBookingAvailability: builder.mutation({
       query: (data) => {
         return {
-          url: "users/check-booking-availability",
+          url: "doctors/check-booking-availability",
           method: "POST",
           body: data,
         };
@@ -64,7 +64,7 @@ export const doctorApiSlice = apiSlice.injectEndpoints({
     }),
     doctorAppointments: builder.query({
       query: (data) => ({
-        url: `/users/doctors/appointments/${data.userId}`,
+        url: `doctors/appointments/${data.userId}`,
         method: "GET",
       }),
       providesTags: ["Doctors"],
@@ -72,7 +72,7 @@ export const doctorApiSlice = apiSlice.injectEndpoints({
     appointmentStatus: builder.mutation({
       query: (data) => {
         return {
-          url: "/users/change-appointment-status",
+          url: "doctors/change-appointment-status",
           method: "POST",
           body: data,
         };
@@ -81,7 +81,7 @@ export const doctorApiSlice = apiSlice.injectEndpoints({
     }),
     bookedAppointments: builder.query({
       query: (data) => ({
-        url: `/users/booked-appointments/${data.userId}`,
+        url: `doctors/booked-appointments/${data.userId}`,
         method: "GET",
       }),
       providesTags: ["Doctors"],
