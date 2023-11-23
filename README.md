@@ -1,7 +1,7 @@
 
 # MERN Doctor 📝 Appointment App
 
-MERN Doctor Appointment App is a comprehensive platform designed for managing users, doctors, and appointments seamlessly.
+Doctor Appointment App is a comprehensive platform designed for managing users, doctors, and appointments seamlessly.
 
 
 ## Features
@@ -49,7 +49,7 @@ Notification System
 
 ![Doctor signup](https://i.postimg.cc/0j1cQTw6/Doctor-Sign-Up.png)
 
-![Booking](https://i.postimg.cc/NMD59Ty1/Booking-Appointments.png)
+![Booking](https://i.postimg.cc/xCCjFYMw/Book-Appointments.png)
 
 ![Appointments](https://i.postimg.cc/59GfPnMX/Doctor-Appointments.png)
 
