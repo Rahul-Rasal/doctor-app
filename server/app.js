@@ -11,8 +11,9 @@ const userRouter = require("./routes/userRoutes");
 const doctorRouter = require("./routes/doctorRoutes");
 
 const corsOptions = {
-  origin: "http://localhost:3000",
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  origin: "*",
+  methods: "*",
+  allowedHeaders: "*",
 };
 
 const app = express();
@@ -28,19 +29,20 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/", (req, res) => {
-  res.send("Doctor Appointment API is running...");
-});
-
 // ROUTES
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/doctors", doctorRouter);
 
-// Heroku Configuration
+// PRODUCTION SETUP
 if (process.env.NODE_ENV === "production") {
-  app.use("/", express.static("client/build"));
+  const __dirname = path.resolve();
+  app.use(express.static("../client/build"));
   app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "client/build/index.html"));
+    res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
+  });
+} else {
+  app.get("/", (req, res) => {
+    res.send("Doctor Appointment API is running...");
   });
 }
 
