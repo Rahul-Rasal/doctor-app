@@ -74,7 +74,7 @@ To run this project, you will need to add the following environment variables to
 ### Frontend ###
 
 ```bash
- REACT_APP_API_KEY:  'http://127.0.0.1:5000/api/v1/'
+ REACT_APP_API_URL:  'http://127.0.0.1:5000/api/v1/'
 ```
 
 
