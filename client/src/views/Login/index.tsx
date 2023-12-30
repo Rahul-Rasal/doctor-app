@@ -182,7 +182,12 @@ const Login = () => {
 
                     return (
                       <Form onKeyDown={onKeyDown}>
-                        <Box sx={{ marginBottom: "10px", marginTop: "20px" }}>
+                        <Box
+                          sx={{
+                            height: "95px",
+                            marginTop: "20px",
+                          }}
+                        >
                           <SubHeading sx={{ marginBottom: "5px" }}>
                             Email
                           </SubHeading>
@@ -200,7 +205,7 @@ const Login = () => {
                             onBlur={handleBlur}
                           />
                         </Box>
-                        <Box sx={{ marginBottom: "10px" }}>
+                        <Box sx={{ height: "95px" }}>
                           <SubHeading sx={{ marginBottom: "5px" }}>
                             Password
                           </SubHeading>
@@ -234,7 +239,7 @@ const Login = () => {
                           sx={{
                             display: "flex",
                             justifyContent: "end",
-                            marginTop: "20px",
+                            marginTop: "10px",
                           }}
                         >
                           <Button
