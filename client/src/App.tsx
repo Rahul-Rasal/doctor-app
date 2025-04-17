@@ -20,6 +20,8 @@ import OverlayLoader from "./components/Spinner/OverlayLoader";
 import BookAppointment from "./views/Appointments/components/BookAppointment";
 import DoctorAppointment from "./views/Appointments/components/DoctorAppointment";
 import useTypedSelector from "./hooks/useTypedSelector";
+import HealthSchemes from "./views/Health";
+import GovernmentHospitals from "./views/GovernmentHospitals";
 
 function App() {
   const dispatch = useDispatch();
@@ -68,6 +70,19 @@ function App() {
               </PublicRoutes>
             }
           />
+          <Route
+            path="/health-schemes"
+            element={
+              <ProtectedRoutes>
+                <HealthSchemes />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/government-hospitals"
+            element={<GovernmentHospitals />}
+          />
+
           {/* Protected Routes */}
           <Route
             path="/"
